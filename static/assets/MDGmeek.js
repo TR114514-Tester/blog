@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     // ==================== 可配置变量 ====================
     const BACKGROUND = "http://blog.traveler.dpdns.org/assets/image/background.png";
-    const BLUR_STRENGTH = '8px'; // 模糊程度：5px, 8px, 10px, 15px等
-    const BUTTON_HOVER_COLOR = '#3cd2cd'; // 右上角按钮悬停颜色
-    const CARD_MAX_WIDTH = '1100px'; // 卡片最大宽度
-    const CARD_PADDING = '20px'; // 卡片内边距
+    const BLUR_STRENGTH = '8px';
+    const BUTTON_HOVER_COLOR = '#3cd2cd';
     // ====================================================
     
     // ==================== 自动导入 MDUI 2 CSS 和 JS ====================
@@ -26,212 +24,161 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let currentUrl = window.location.pathname;
 
-    // ==================== 包装页面内容到MDUI卡片 ====================
+    // ==================== 最直接的修复方案 ====================
     function wrapContentInMduiCard() {
         const body = document.body;
         const originalContent = body.innerHTML;
         
-        // 创建整个页面的模糊背景层
-        const blurBackground = document.createElement('div');
-        blurBackground.id = 'fullpage-blur-bg';
-        blurBackground.style.cssText = `
+        // 1. 添加全屏模糊背景
+        const blurLayer = document.createElement('div');
+        blurLayer.id = 'global-blur-layer';
+        blurLayer.style.cssText = `
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-        `;
-        
-        // 创建主容器 - 修复居中问题
-        const mainContainer = document.createElement('div');
-        mainContainer.id = 'main-container';
-        mainContainer.style.cssText = `
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 20px;
-            box-sizing: border-box;
-            width: 100%;
-        `;
-        
-        // 创建卡片容器 - 修复：确保居中
-        const cardContainer = document.createElement('div');
-        cardContainer.id = 'card-container';
-        cardContainer.style.cssText = `
-            width: 100%;
-            max-width: ${CARD_MAX_WIDTH};
-            margin: 0 auto; /* 关键：自动居中 */
-            display: flex;
-            flex-direction: column;
-        `;
-        
-        // 创建MDUI卡片
-        const card = document.createElement('mdui-card');
-        card.setAttribute('variant', 'elevated');
-        card.style.cssText = `
-            width: 100%;
-            min-height: calc(100vh - 60px);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            display: block;
-            background: transparent !important;
-        `;
-        
-        // 创建卡片内部模糊层（可选的额外效果）
-        const cardBlurLayer = document.createElement('div');
-        cardBlurLayer.className = 'card-blur-layer';
-        cardBlurLayer.style.cssText = `
-            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
-            pointer-events: none;
+            z-index: -1;
+            background: url('${BACKGROUND}') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(${BLUR_STRENGTH});
+            -webkit-filter: blur(${BLUR_STRENGTH});
         `;
         
-        // 创建内容容器
-        const contentWrapper = document.createElement('div');
-        contentWrapper.className = 'card-content-wrapper';
-        contentWrapper.style.cssText = `
+        // 2. 创建最外层容器 - 完全复制原body的居中逻辑
+        const mainWrapper = document.createElement('div');
+        mainWrapper.id = 'mdui-main-wrapper';
+        mainWrapper.style.cssText = `
+            margin: 30px auto !important;
+            padding: 20px !important;
+            font-size: 16px;
+            font-family: sans-serif;
+            line-height: 1.25;
+            background: transparent !important;
+            border-radius: 10px;
+            overflow: auto;
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 1100px !important;
+            width: 100% !important;
             position: relative;
             z-index: 1;
+        `;
+        
+        // 3. 创建MDUI卡片
+        const card = document.createElement('mdui-card');
+        card.setAttribute('variant', 'elevated');
+        card.style.cssText = `
+            width: 100% !important;
+            border-radius: 10px;
+            overflow: hidden;
+            display: block !important;
+        `;
+        
+        // 4. 创建内容容器
+        const contentWrapper = document.createElement('div');
+        contentWrapper.className = 'mdui-content-wrapper';
+        contentWrapper.style.cssText = `
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             width: 100%;
             min-height: 100%;
+            padding: 20px;
             box-sizing: border-box;
         `;
         contentWrapper.innerHTML = originalContent;
         
-        // 组装结构
-        card.appendChild(cardBlurLayer);
+        // 5. 组装结构
         card.appendChild(contentWrapper);
-        cardContainer.appendChild(card);
-        mainContainer.appendChild(cardContainer);
+        mainWrapper.appendChild(card);
         
-        // 清空body并添加新结构
+        // 6. 清空body并添加新结构
         body.innerHTML = '';
-        body.appendChild(blurBackground);
-        body.appendChild(mainContainer);
+        body.appendChild(blurLayer);
+        body.appendChild(mainWrapper);
         
-        // 添加全局样式 - 修复：确保正确居中
-        const htmlStyle = document.createElement('style');
-        htmlStyle.innerHTML = `
-            /* 重置和基础样式 */
+        // 7. 添加关键CSS修复
+        const globalStyles = document.createElement('style');
+        globalStyles.innerHTML = `
+            /* 重置基础样式 */
             html, body {
                 margin: 0;
                 padding: 0;
                 width: 100%;
                 min-height: 100vh;
                 font-family: sans-serif;
-                line-height: 1.25;
-                overflow-x: hidden; /* 防止水平滚动 */
+                background: transparent !important;
             }
             
-            /* 全页面模糊背景 */
-            #fullpage-blur-bg {
-                background: url('${BACKGROUND}') no-repeat center center fixed;
-                background-size: cover;
-                filter: blur(${BLUR_STRENGTH});
-                -webkit-filter: blur(${BLUR_STRENGTH});
-                transform: scale(1.1);
+            /* 确保body正确居中内容 */
+            body {
+                display: block !important;
+                background: transparent !important;
             }
             
-            /* 主容器样式 */
-            #main-container {
-                background: transparent;
+            /* 强制整个页面居中布局 */
+            #mdui-main-wrapper {
+                display: block !important;
+                position: relative !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                background: transparent !important;
             }
             
-            /* 卡片容器样式 - 修复居中 */
-            #card-container {
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: flex-start !important;
-            }
-            
-            /* MDUI卡片样式 */
+            /* 修复MDUI卡片可能的问题 */
             mdui-card {
                 display: block !important;
                 width: 100% !important;
-                max-width: ${CARD_MAX_WIDTH} !important;
+                max-width: 100% !important;
                 background: transparent !important;
-                margin: 0 !important;
             }
             
-            /* 卡片内容区域样式 */
-            .card-content-wrapper {
-                background: rgba(255, 255, 255, 0.85);
-                backdrop-filter: blur(3px);
-                -webkit-backdrop-filter: blur(3px);
-                width: 100% !important;
-                min-height: 100%;
-                box-sizing: border-box !important;
-                padding: ${CARD_PADDING} !important;
-                display: block !important;
-                border-radius: 10px; /* 确保圆角 */
-            }
-            
-            /* 修复内容区域内的元素宽度 */
-            .card-content-wrapper > * {
-                max-width: 100% !important;
-                box-sizing: border-box !important;
-            }
-            
-            /* 确保MDUI组件不会干扰布局 */
-            .mdui-container, .mdui-row, .mdui-col {
-                max-width: 100% !important;
-                width: 100% !important;
-            }
-            
-            /* 强制所有内部容器宽度正确 */
-            #header, #main, #footer, 
-            .blogTitle, .title-right,
-            .SideNav, .markdown-body,
-            .pagination, .post-content {
+            /* 确保内容区域宽度正确 */
+            .mdui-content-wrapper,
+            .mdui-content-wrapper > * {
                 width: 100% !important;
                 max-width: 100% !important;
                 box-sizing: border-box !important;
             }
             
-            /* 响应式调整 */
-            @media (max-width: 1200px) {
-                #main-container {
-                    padding: 20px 15px;
+            /* 强制所有内部元素继承正确宽度 */
+            #header, #main, #footer, .blogTitle, .title-right,
+            .SideNav, .markdown-body, .pagination {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* 针对大屏幕的额外调整 */
+            @media (min-width: 1200px) {
+                #mdui-main-wrapper {
+                    max-width: 1100px !important;
+                    width: 90% !important;
                 }
             }
             
+            /* 移动端调整 */
             @media (max-width: 768px) {
-                #main-container {
-                    padding: 15px 10px;
+                #mdui-main-wrapper {
+                    margin: 15px auto !important;
+                    padding: 10px !important;
+                    width: 95% !important;
                 }
                 
-                .card-content-wrapper {
+                .mdui-content-wrapper {
                     padding: 15px !important;
                 }
             }
-            
-            /* 修复flexbox可能导致的居中问题 */
-            @media (min-width: 1101px) {
-                #card-container {
-                    width: 100%;
-                    max-width: ${CARD_MAX_WIDTH};
-                }
-            }
         `;
-        document.head.appendChild(htmlStyle);
+        document.head.appendChild(globalStyles);
     }
     
     wrapContentInMduiCard();
     // ====================================================================
 
     // ==================== 各页面主题调整 ====================
-    // 将颜色值转换为RGBA格式（保持0.9透明度）
+    // 将颜色值转换为RGBA格式
     function getHoverColorRgba() {
         const hex = BUTTON_HOVER_COLOR.replace('#', '');
         const r = parseInt(hex.substring(0, 2), 16);
@@ -246,21 +193,19 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('MDGmeek : 应用主页主题');
         let style = document.createElement("style");
         style.innerHTML = `
-        /* 主页主题 */
-        .card-content-wrapper {
+        /* 主页主题 - 确保所有内容正确居中 */
+        .mdui-content-wrapper {
             background: rgba(255, 255, 255, 0.82) !important;
         }
         
-        /* 确保header区域正确显示 */
+        /* header布局 - 保持原设计 */
+        .blogTitle {
+            display: unset;
+        }
+        
         #header {
             height: 340px;
             background: transparent !important;
-            width: 100% !important;
-            position: relative;
-        }
-        
-        .blogTitle {
-            display: unset;
         }
         
         #header h1 {
@@ -270,17 +215,13 @@ document.addEventListener('DOMContentLoaded', function() {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: auto !important;
         }
         
         .title-right {
-            margin: 0;
+            margin: unset;
             margin-top: 295px;
             margin-left: 50%;
             transform: translateX(-50%);
-            width: auto !important;
-            white-space: nowrap;
-            text-align: center;
         }
         
         .avatar {
@@ -291,36 +232,28 @@ document.addEventListener('DOMContentLoaded', function() {
         #header h1 a {
             margin-top: 30px;
             font-family: fantasy;
+            margin-left: unset;
         }
         
-        /* 侧边导航适配 */
+        /* 侧边导航 */
         .SideNav {
-            background: rgba(255, 255, 255, 0.75) !important;
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 10px;
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            width: 100% !important;
+            min-width: unset;
         }
         
         .SideNav-item:hover {
-            background-color: rgba(195, 228, 227, 0.8) !important;
+            background-color: #c3e4e3;
             border-radius: 10px;
             transform: scale(1.02);
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
         
         .SideNav-item {
             transition: 0.5s;
         }
         
-        /* 分页条 - 确保居中 */
-        .pagination {
-            width: 100% !important;
-            display: flex !important;
-            justify-content: center !important;
-            margin: 20px 0 !important;
-        }
-        
+        /* 分页条 */
         .pagination a:hover, .pagination a:focus, 
         .pagination span:hover, .pagination span:focus, 
         .pagination em:hover, .pagination em:focus {
@@ -331,23 +264,21 @@ document.addEventListener('DOMContentLoaded', function() {
         div.title-right {
             display: flex !important;
             justify-content: center !important;
-            flex-wrap: wrap !important;
+            width: 100% !important;
         }
         
         div.title-right .btn {
-            display: inline-flex !important;
+            display: inline-flex;
             align-items: center;
-            width: auto !important;
+            width: auto;
             height: 40px;
-            margin: 0 3px !important;
+            margin: 0 3px;
             border-radius: 2em !important;
             transition: 0.3s;
-            background: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
         }
         
         div.title-right .btn:hover {
+            border-radius: 2em !important;
             background-color: ${buttonHoverRgba} !important;
         }
         
@@ -384,78 +315,59 @@ document.addEventListener('DOMContentLoaded', function() {
         let style = document.createElement("style");
         style.innerHTML = `
         /* 文章页主题 */
-        .card-content-wrapper {
+        .mdui-content-wrapper {
             background: rgba(255, 255, 255, 0.88) !important;
             padding: 45px !important;
         }
         
         @media (max-width: 1000px) {
-            .card-content-wrapper {
+            .mdui-content-wrapper {
                 padding: 20px !important;
             }
         }
         
         /* markdown内容 */
-        .markdown-body {
-            width: 100% !important;
-            max-width: 100% !important;
-        }
-        
         .markdown-body img {
             border-radius: 10px;
             border: 2px solid #a3e0e4;
-            background: rgba(255, 255, 255, 0.7);
-            max-width: 100% !important;
         }
 
         .markdown-alert {
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.85) !important;
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            width: 100% !important;
         }
 
         .markdown-body .highlight pre, .markdown-body pre {
-            background: rgba(255, 255, 255, 0.9) !important;
+            background: rgba(255, 255, 255, 0.85);
             border-radius: 10px;
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
-            width: 100% !important;
-            max-width: 100% !important;
-            overflow-x: auto;
         }
 
         .markdown-body code, .markdown-body tt {
-            background-color: rgba(141, 150, 161, 0.25) !important;
+            background-color: rgb(141 150 161 / 20%);
         }
 
         video {
             border-radius: 10px;
-            max-width: 100% !important;
         }
 
         /* 右上角按钮 */
         div.title-right {
             display: flex !important;
             justify-content: center !important;
-            flex-wrap: wrap !important;
+            width: 100% !important;
         }
         
         div.title-right .btn {
-            display: inline-flex !important;
+            display: inline-flex;
             align-items: center;
-            width: auto !important;
+            width: auto;
             height: 40px;
-            margin: 0 3px !important;
+            margin: 0 3px;
             border-radius: 2em !important;
             transition: 0.3s;
-            background: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
         }
 
         div.title-right .btn:hover {
+            border-radius: 2em !important;
             background-color: ${buttonHoverRgba} !important;
         }
 
@@ -492,17 +404,16 @@ document.addEventListener('DOMContentLoaded', function() {
         let style = document.createElement("style");
         style.innerHTML = `
         /* 搜索页主题 */
-        .card-content-wrapper {
+        .mdui-content-wrapper {
             background: rgba(255, 255, 255, 0.82) !important;
         }
         
         /* header布局 */
         .title-right {
-            align-items: flex-end !important;
-            width: 100% !important;
+            align-items: flex-end;
             display: flex !important;
             justify-content: center !important;
-            flex-wrap: wrap !important;
+            width: 100% !important;
         }
 
         @media (max-width: 600px) {
@@ -515,18 +426,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         /* 侧边导航 */
         .SideNav {
-            background: rgba(255, 255, 255, 0.75) !important;
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 10px;
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            width: 100% !important;
+            min-width: unset;
         }
         
         .SideNav-item:hover {
-            background-color: rgba(195, 228, 227, 0.8) !important;
+            background-color: #c3e4e3;
             border-radius: 10px;
             transform: scale(1.02);
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
         
         .SideNav-item {
@@ -535,19 +444,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         /* 右上角按钮 */
         div.title-right .btn {
-            display: inline-flex !important;
+            display: inline-flex;
             align-items: center;
-            width: auto !important;
+            width: auto;
             height: 40px;
-            margin: 0 3px !important;
+            margin: 0 3px;
             border-radius: 2em !important;
             transition: 0.3s;
-            background: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
         }
         
         div.title-right .btn:hover {
+            border-radius: 2em !important;
             background-color: ${buttonHoverRgba} !important;
         }
         
@@ -567,11 +474,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .subnav-search-input {
             border-radius: 2em;
             float: unset !important;
-            background: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            width: 100% !important;
-            max-width: 400px !important;
         }
         
         .subnav-search-icon {
@@ -583,10 +485,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         .subnav-search {
-            width: 100% !important;
+            width: unset; 
             height: 36px;
-            display: flex;
-            justify-content: center;
         }
         `;
         document.head.appendChild(style);
@@ -623,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('MDGmeek : 应用基础样式');
         let style = document.createElement("style");
         style.innerHTML = `
-        .card-content-wrapper {
+        .mdui-content-wrapper {
             background: rgba(255, 255, 255, 0.85) !important;
         }
         `;
