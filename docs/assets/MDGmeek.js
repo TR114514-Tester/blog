@@ -541,18 +541,24 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('MDGmeek : 未应用主题');
     }
     
-    // 为 notranslate 类添加 MDUI Roboto 字体
+    // 为 notranslate 类添加 MDUI Roboto 字体和高斯模糊
     const notranslateStyle = document.createElement("style");
     notranslateStyle.innerHTML = `
-        /* 为所有 notranslate 类应用 MDUI Roboto 字体 */
+        /* 为所有 notranslate 类应用 MDUI Roboto 字体和高斯模糊 */
         .notranslate {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
             font-weight: 400;
             line-height: 1.5;
             letter-spacing: 0.00938em;
+            backdrop-filter: blur(${BLUR_INTENSITY}) !important;
+            -webkit-backdrop-filter: blur(${BLUR_INTENSITY}) !important;
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
         }
         
-        /* 为 notranslate 内的特定元素设置字体 */
+        /* 为 notranslate 内的特定元素设置字体和模糊 */
         .notranslate h1,
         .notranslate h2,
         .notranslate h3,
@@ -561,44 +567,66 @@ document.addEventListener('DOMContentLoaded', function() {
         .notranslate h6 {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
             font-weight: 500;
+            backdrop-filter: blur(${BLUR_INTENSITY}) !important;
+            -webkit-backdrop-filter: blur(${BLUR_INTENSITY}) !important;
         }
         
         .notranslate code,
         .notranslate pre {
             font-family: 'Roboto Mono', 'Consolas', 'Monaco', 'Courier New', monospace !important;
+            backdrop-filter: blur(4px) !important;
+            -webkit-backdrop-filter: blur(4px) !important;
+            background: rgba(255, 255, 255, 0.2) !important;
         }
         
         .notranslate blockquote {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
             font-style: italic;
             font-weight: 300;
+            backdrop-filter: blur(6px) !important;
+            -webkit-backdrop-filter: blur(6px) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-left: 4px solid rgba(138, 43, 226, 0.5);
+            padding-left: 15px;
+            margin-left: 0;
         }
         
-        /* 确保按钮也使用 Roboto 字体 */
+        /* 确保按钮也使用 Roboto 字体和模糊效果 */
         .notranslate button,
         .notranslate input,
         .notranslate select,
         .notranslate textarea {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+            backdrop-filter: blur(4px) !important;
+            -webkit-backdrop-filter: blur(4px) !important;
+            background: rgba(255, 255, 255, 0.2) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
         }
         
-        /* 表格中的文字也应用 Roboto 字体 */
+        /* 表格中的文字也应用 Roboto 字体和模糊效果 */
         .notranslate table,
         .notranslate th,
         .notranslate td {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+            backdrop-filter: blur(4px) !important;
+            -webkit-backdrop-filter: blur(4px) !important;
+            background: rgba(255, 255, 255, 0.15) !important;
         }
         
-        /* 列表项也应用 Roboto 字体 */
+        /* 列表项也应用 Roboto 字体和模糊效果 */
         .notranslate ul,
         .notranslate ol,
         .notranslate li {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+            backdrop-filter: blur(4px) !important;
+            -webkit-backdrop-filter: blur(4px) !important;
         }
         
         /* 链接也应用 Roboto 字体 */
         .notranslate a {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+            backdrop-filter: blur(2px) !important;
+            -webkit-backdrop-filter: blur(2px) !important;
         }
     `;
     document.head.appendChild(notranslateStyle);
