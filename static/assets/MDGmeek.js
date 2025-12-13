@@ -25,20 +25,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.head.appendChild(script);
     }
     
-    // 创建MDUI卡片容器并包装body内容
-    const bodyContent = document.body.innerHTML;
-    const cardContainer = document.createElement('div');
-    cardContainer.className = 'mdui-card mdui-card-content';
-    cardContainer.style.cssText = `
+    // 问题修复：不再将整个body内容包装在卡片中，而是直接为body添加卡片样式
+    // 这样不会破坏原有文章内容的结构
+    document.body.classList.add('mdui-card');
+    document.body.style.cssText += `
         backdrop-filter: blur(${BLUR_INTENSITY}) !important;
         -webkit-backdrop-filter: blur(${BLUR_INTENSITY}) !important;
         background: rgba(255, 255, 255, 0.15) !important;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+        border-radius: 16px !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
     `;
-    
-    document.body.innerHTML = '';
-    document.body.appendChild(cardContainer);
-    cardContainer.innerHTML = bodyContent;
     
     // 为SideNav-item添加美化效果
     function applySideNavBeautify() {
@@ -58,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             /* SideNav-item卡片美化 */
             .SideNav-item {
-                all: unset !important;
                 background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)) !important;
                 backdrop-filter: blur(8px) saturate(180%) !important;
                 -webkit-backdrop-filter: blur(8px) saturate(180%) !important;
@@ -327,29 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
             height: 100%;
         }
         
-        body {
-            margin: 30px auto;
-            padding: 0;
-            font-size: 16px;
-            font-family: sans-serif;
-            line-height: 1.25;
-            background: transparent !important;
-            border-radius: 0;
-            box-shadow: none;
-            overflow: auto;
-        }
-        
-        /* MDUI卡片样式 */
-        .mdui-card {
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 16px !important;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            background: rgba(255, 255, 255, 0.1) !important;
-            backdrop-filter: blur(${BLUR_INTENSITY}) !important;
-            -webkit-backdrop-filter: blur(${BLUR_INTENSITY}) !important;
-        }
+        /* body样式已经移到上面统一处理 */
         
         /* 分页条美化 */
         .pagination {
@@ -419,6 +393,16 @@ document.addEventListener('DOMContentLoaded', function() {
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
         }
         
+        /* 修复：确保文章内容正常显示 */
+        .post-block,
+        .markdown-body,
+        .post-content {
+            background: transparent !important;
+            backdrop-filter: none !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+        
         `;
         document.head.appendChild(style);
         
@@ -449,48 +433,22 @@ document.addEventListener('DOMContentLoaded', function() {
             height: 100%;
         }
 
-        body {
-            min-width: 200px;
-            max-width: 1100px;
-            margin: 30px auto;
-            font-size: 16px;
-            font-family: sans-serif;
-            line-height: 1.25;
+        /* body样式已经移到上面统一处理 */
+        
+        /* 文章内容区域修复：确保内容正常显示 */
+        .post-block,
+        .markdown-body,
+        .post-content,
+        .entry-content,
+        .article-content {
             background: transparent !important;
-            border-radius: 0;
-            box-shadow: none;
-            overflow: auto;
-            padding: 0 !important;
-        }
-
-        /* MDUI卡片样式 */
-        .mdui-card {
-            width: 100%;
-            border-radius: 16px !important;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            background: rgba(255, 255, 255, 0.1) !important;
-            backdrop-filter: blur(${BLUR_INTENSITY}) !important;
-            -webkit-backdrop-filter: blur(${BLUR_INTENSITY}) !important;
-        }
-
-        @media (min-width: 1001px) {
-        .mdui-card {
-            padding: 45px;
-        }
-        }
-
-        @media (max-width: 1000px) {
-        .mdui-card {
-            padding: 25px;
-        }
+            backdrop-filter: none !important;
+            box-shadow: none !important;
+            border: none !important;
+            color: #333 !important;
         }
 
         /* markdown内容美化 */
-        .markdown-body {
-            color: #333 !important;
-        }
-        
         .markdown-body img {
             border-radius: 12px;
             border: 2px solid rgba(163, 224, 228, 0.6);
@@ -580,6 +538,19 @@ document.addEventListener('DOMContentLoaded', function() {
             display: inline;
         }
 
+        /* 确保文章容器正常显示 */
+        @media (min-width: 1001px) {
+        body {
+            padding: 45px;
+        }
+        }
+
+        @media (max-width: 1000px) {
+        body {
+            padding: 20px;
+        }
+        }
+
         `;
         document.head.appendChild(style);
 
@@ -624,29 +595,7 @@ document.addEventListener('DOMContentLoaded', function() {
             height: 100%;
         }
         
-        body {
-            margin: 30px auto;
-            padding: 0;
-            font-size: 16px;
-            font-family: sans-serif;
-            line-height: 1.25;
-            background: transparent !important;
-            border-radius: 0;
-            box-shadow: none;
-            overflow: auto;
-        }
-        
-        /* MDUI卡片样式 */
-        .mdui-card {
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 16px !important;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            background: rgba(255, 255, 255, 0.1) !important;
-            backdrop-filter: blur(${BLUR_INTENSITY}) !important;
-            -webkit-backdrop-filter: blur(${BLUR_INTENSITY}) !important;
-        }
+        /* body样式已经移到上面统一处理 */
         
         /* 搜索框美化 */
         .subnav-search {
@@ -739,6 +688,14 @@ document.addEventListener('DOMContentLoaded', function() {
             width: unset; 
             height: 40px;
         }
+        
+        /* 修复：确保搜索结果正常显示 */
+        .tag-cloud,
+        .search-results,
+        .tag-list {
+            background: transparent !important;
+            backdrop-filter: none !important;
+        }
         `;
         document.head.appendChild(style);
         
@@ -772,6 +729,28 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         applySideNavBeautify();
         console.log('MDGmeek : SideNav美化效果已应用');
+        
+        // 确保文章内容区域背景透明
+        const contentSelectors = [
+            '.post-block',
+            '.markdown-body', 
+            '.post-content',
+            '.entry-content',
+            '.article-content',
+            '.post-body',
+            '.article'
+        ];
+        
+        contentSelectors.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                el.style.background = 'transparent !important';
+                el.style.backdropFilter = 'none !important';
+                el.style.boxShadow = 'none !important';
+                el.style.border = 'none !important';
+            });
+        });
+        
     }, 500);
     
     // 添加全局美化样式
@@ -812,6 +791,27 @@ document.addEventListener('DOMContentLoaded', function() {
             transform: translateY(-2px) !important;
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        
+        /* 修复：确保文章内容区域不会继承卡片样式 */
+        .post-block .mdui-card,
+        .markdown-body .mdui-card,
+        .post-content .mdui-card,
+        .entry-content .mdui-card,
+        .article-content .mdui-card {
+            background: transparent !important;
+            backdrop-filter: none !important;
+            box-shadow: none !important;
+            border: none !important;
+            transform: none !important;
+        }
+        
+        /* 确保文章内图片和代码块不受影响 */
+        .markdown-body img,
+        .markdown-body pre,
+        .markdown-body code {
+            background: transparent !important;
+            backdrop-filter: none !important;
         }
     `;
     document.head.appendChild(globalStyle);
