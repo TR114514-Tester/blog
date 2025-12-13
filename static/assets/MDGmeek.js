@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const BLUR_STRENGTH = '8px'; // 模糊程度：5px, 8px, 10px, 15px等
     const BUTTON_HOVER_COLOR = '#3cd2cd'; // 右上角按钮悬停颜色
     const CARD_MAX_WIDTH = '1100px'; // 卡片最大宽度
-    const CARD_PADDING = '200px'; // 卡片内边距
+    const CARD_PADDING = '20px'; // 卡片内边距
     // ====================================================
     
     // ==================== 自动导入 MDUI 2 CSS 和 JS ====================
@@ -31,10 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const body = document.body;
         const originalContent = body.innerHTML;
         
-        // 创建全屏背景模糊层 - 放在最外层
-        const fullscreenBlurLayer = document.createElement('div');
-        fullscreenBlurLayer.id = 'fullscreen-blur-background';
-        fullscreenBlurLayer.style.cssText = `
+        // 创建整个页面的模糊背景层
+        const blurBackground = document.createElement('div');
+        blurBackground.id = 'fullpage-blur-bg';
+        blurBackground.style.cssText = `
             position: fixed;
             top: 0;
             left: 0;
@@ -44,30 +44,33 @@ document.addEventListener('DOMContentLoaded', function() {
             pointer-events: none;
         `;
         
-        // 创建页面容器
-        const pageContainer = document.createElement('div');
-        pageContainer.id = 'page-container';
-        pageContainer.style.cssText = `
+        // 创建主容器 - 修复居中问题
+        const mainContainer = document.createElement('div');
+        mainContainer.id = 'main-container';
+        mainContainer.style.cssText = `
             position: relative;
             z-index: 1;
-            width: 100%;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
             padding: 30px 20px;
             box-sizing: border-box;
+            width: 100%;
         `;
         
-        // 创建卡片容器
+        // 创建卡片容器 - 修复：确保居中
         const cardContainer = document.createElement('div');
-        cardContainer.className = 'card-container';
+        cardContainer.id = 'card-container';
         cardContainer.style.cssText = `
             width: 100%;
             max-width: ${CARD_MAX_WIDTH};
+            margin: 0 auto; /* 关键：自动居中 */
+            display: flex;
+            flex-direction: column;
         `;
         
-        // 创建卡片
+        // 创建MDUI卡片
         const card = document.createElement('mdui-card');
         card.setAttribute('variant', 'elevated');
         card.style.cssText = `
@@ -76,10 +79,11 @@ document.addEventListener('DOMContentLoaded', function() {
             border-radius: 10px;
             overflow: hidden;
             position: relative;
+            display: block;
             background: transparent !important;
         `;
         
-        // 创建卡片内部模糊层（增强效果）
+        // 创建卡片内部模糊层（可选的额外效果）
         const cardBlurLayer = document.createElement('div');
         cardBlurLayer.className = 'card-blur-layer';
         cardBlurLayer.style.cssText = `
@@ -104,109 +108,119 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         contentWrapper.innerHTML = originalContent;
         
-        // 组装卡片
+        // 组装结构
         card.appendChild(cardBlurLayer);
         card.appendChild(contentWrapper);
         cardContainer.appendChild(card);
-        pageContainer.appendChild(cardContainer);
+        mainContainer.appendChild(cardContainer);
         
         // 清空body并添加新结构
         body.innerHTML = '';
-        body.appendChild(fullscreenBlurLayer);
-        body.appendChild(pageContainer);
+        body.appendChild(blurBackground);
+        body.appendChild(mainContainer);
         
-        // 添加全局样式 - 修复：在整个页面应用模糊背景
+        // 添加全局样式 - 修复：确保正确居中
         const htmlStyle = document.createElement('style');
         htmlStyle.innerHTML = `
+            /* 重置和基础样式 */
             html, body {
                 margin: 0;
                 padding: 0;
                 width: 100%;
                 min-height: 100vh;
-                background-color: #f0f0f0; /* 备用背景色 */
+                font-family: sans-serif;
+                line-height: 1.25;
+                overflow-x: hidden; /* 防止水平滚动 */
             }
             
-            /* 整个页面的模糊背景 */
-            #fullscreen-blur-background {
+            /* 全页面模糊背景 */
+            #fullpage-blur-bg {
                 background: url('${BACKGROUND}') no-repeat center center fixed;
                 background-size: cover;
                 filter: blur(${BLUR_STRENGTH});
                 -webkit-filter: blur(${BLUR_STRENGTH});
-                transform: scale(1.05); /* 稍微放大避免边缘模糊不全 */
+                transform: scale(1.1);
             }
             
-            /* 卡片内部的模糊层（增强效果） */
-            .card-blur-layer {
-                background: inherit; /* 继承页面背景 */
-                filter: blur(calc(${BLUR_STRENGTH} / 2)); /* 轻微模糊增强 */
-                opacity: 0.7; /* 降低透明度让内容更清晰 */
+            /* 主容器样式 */
+            #main-container {
+                background: transparent;
+            }
+            
+            /* 卡片容器样式 - 修复居中 */
+            #card-container {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+            }
+            
+            /* MDUI卡片样式 */
+            mdui-card {
+                display: block !important;
+                width: 100% !important;
+                max-width: ${CARD_MAX_WIDTH} !important;
+                background: transparent !important;
+                margin: 0 !important;
             }
             
             /* 卡片内容区域样式 */
             .card-content-wrapper {
                 background: rgba(255, 255, 255, 0.85);
-                backdrop-filter: blur(10px) saturate(180%);
-                -webkit-backdrop-filter: blur(10px) saturate(180%);
+                backdrop-filter: blur(3px);
+                -webkit-backdrop-filter: blur(3px);
                 width: 100% !important;
-                display: block;
+                min-height: 100%;
+                box-sizing: border-box !important;
                 padding: ${CARD_PADDING} !important;
-                border-radius: 10px; /* 确保圆角效果 */
-            }
-            
-            /* 毛玻璃效果增强 */
-            .card-content-wrapper::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(255, 255, 255, 0.3);
-                backdrop-filter: blur(5px);
-                -webkit-backdrop-filter: blur(5px);
-                border-radius: 10px;
-                z-index: -1;
-                pointer-events: none;
-            }
-            
-            /* 确保MDUI卡片不限制宽度 */
-            mdui-card {
-                width: 100% !important;
                 display: block !important;
-                background: transparent !important;
+                border-radius: 10px; /* 确保圆角 */
+            }
+            
+            /* 修复内容区域内的元素宽度 */
+            .card-content-wrapper > * {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* 确保MDUI组件不会干扰布局 */
+            .mdui-container, .mdui-row, .mdui-col {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            
+            /* 强制所有内部容器宽度正确 */
+            #header, #main, #footer, 
+            .blogTitle, .title-right,
+            .SideNav, .markdown-body,
+            .pagination, .post-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             
             /* 响应式调整 */
             @media (max-width: 1200px) {
-                #page-container {
+                #main-container {
                     padding: 20px 15px;
                 }
             }
             
             @media (max-width: 768px) {
-                #page-container {
+                #main-container {
                     padding: 15px 10px;
                 }
                 
                 .card-content-wrapper {
                     padding: 15px !important;
                 }
-                
-                /* 在移动设备上降低模糊强度以提升性能 */
-                #fullscreen-blur-background {
-                    filter: blur(calc(${BLUR_STRENGTH} * 0.7));
-                    -webkit-filter: blur(calc(${BLUR_STRENGTH} * 0.7));
-                }
             }
             
-            /* 修复旧浏览器兼容性 */
-            @supports not (backdrop-filter: blur(10px)) {
-                .card-content-wrapper {
-                    background: rgba(255, 255, 255, 0.92) !important;
-                }
-                
-                .card-content-wrapper::before {
-                    display: none;
+            /* 修复flexbox可能导致的居中问题 */
+            @media (min-width: 1101px) {
+                #card-container {
+                    width: 100%;
+                    max-width: ${CARD_MAX_WIDTH};
                 }
             }
         `;
@@ -229,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttonHoverRgba = getHoverColorRgba();
     
     if (currentUrl.includes('/index.html') || currentUrl === "/") {
-        console.log('MDGmeek : 应用主页主题 (修复全屏模糊背景)');
+        console.log('MDGmeek : 应用主页主题');
         let style = document.createElement("style");
         style.innerHTML = `
         /* 主页主题 */
@@ -266,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
             transform: translateX(-50%);
             width: auto !important;
             white-space: nowrap;
+            text-align: center;
         }
         
         .avatar {
@@ -282,8 +297,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .SideNav {
             background: rgba(255, 255, 255, 0.75) !important;
             border-radius: 10px;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             width: 100% !important;
         }
         
@@ -298,11 +313,12 @@ document.addEventListener('DOMContentLoaded', function() {
             transition: 0.5s;
         }
         
-        /* 分页条 */
+        /* 分页条 - 确保居中 */
         .pagination {
             width: 100% !important;
-            display: flex;
-            justify-content: center;
+            display: flex !important;
+            justify-content: center !important;
+            margin: 20px 0 !important;
         }
         
         .pagination a:hover, .pagination a:focus, 
@@ -311,18 +327,24 @@ document.addEventListener('DOMContentLoaded', function() {
             border-color: rebeccapurple;
         }
         
-        /* 右上角按钮 */
+        /* 右上角按钮 - 确保居中 */
+        div.title-right {
+            display: flex !important;
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+        }
+        
         div.title-right .btn {
-            display: inline-flex;
+            display: inline-flex !important;
             align-items: center;
             width: auto !important;
             height: 40px;
-            margin: 0 3px;
+            margin: 0 3px !important;
             border-radius: 2em !important;
             transition: 0.3s;
             background: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
         }
         
         div.title-right .btn:hover {
@@ -358,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
 
     } else if (currentUrl.includes('/post/') || currentUrl.includes('/link.html') || currentUrl.includes('/about.html')) {
-        console.log('MDGmeek : 应用文章页主题 (修复全屏模糊背景)');
+        console.log('MDGmeek : 应用文章页主题');
         let style = document.createElement("style");
         style.innerHTML = `
         /* 文章页主题 */
@@ -389,16 +411,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .markdown-alert {
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.85) !important;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             width: 100% !important;
         }
 
         .markdown-body .highlight pre, .markdown-body pre {
             background: rgba(255, 255, 255, 0.9) !important;
             border-radius: 10px;
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             width: 100% !important;
             max-width: 100% !important;
             overflow-x: auto;
@@ -414,17 +436,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         /* 右上角按钮 */
+        div.title-right {
+            display: flex !important;
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+        }
+        
         div.title-right .btn {
-            display: inline-flex;
+            display: inline-flex !important;
             align-items: center;
             width: auto !important;
             height: 40px;
-            margin: 0 3px;
+            margin: 0 3px !important;
             border-radius: 2em !important;
             transition: 0.3s;
             background: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
         }
 
         div.title-right .btn:hover {
@@ -460,7 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
 
     } else if (currentUrl.includes('/tag.html')) {
-        console.log('MDGmeek : 应用搜索页主题 (修复全屏模糊背景)');
+        console.log('MDGmeek : 应用搜索页主题');
         let style = document.createElement("style");
         style.innerHTML = `
         /* 搜索页主题 */
@@ -470,10 +498,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         /* header布局 */
         .title-right {
-            align-items: flex-end;
+            align-items: flex-end !important;
             width: 100% !important;
-            display: flex;
-            justify-content: center;
+            display: flex !important;
+            justify-content: center !important;
+            flex-wrap: wrap !important;
         }
 
         @media (max-width: 600px) {
@@ -488,8 +517,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .SideNav {
             background: rgba(255, 255, 255, 0.75) !important;
             border-radius: 10px;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             width: 100% !important;
         }
         
@@ -506,16 +535,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         /* 右上角按钮 */
         div.title-right .btn {
-            display: inline-flex;
+            display: inline-flex !important;
             align-items: center;
             width: auto !important;
             height: 40px;
-            margin: 0 3px;
+            margin: 0 3px !important;
             border-radius: 2em !important;
             transition: 0.3s;
             background: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
         }
         
         div.title-right .btn:hover {
@@ -539,8 +568,8 @@ document.addEventListener('DOMContentLoaded', function() {
             border-radius: 2em;
             float: unset !important;
             background: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             width: 100% !important;
             max-width: 400px !important;
         }
@@ -591,7 +620,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 200);
 
     } else {
-        console.log('MDGmeek : 应用基础样式 (修复全屏模糊背景)');
+        console.log('MDGmeek : 应用基础样式');
         let style = document.createElement("style");
         style.innerHTML = `
         .card-content-wrapper {
