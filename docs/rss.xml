@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题，还有乐子看</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/favicon.ico</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sat, 13 Dec 2025 02:11:35 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>EdgeTunnel优选教程</title><link>http://blog.traveler.dpdns.org/post/EdgeTunnel-you-xuan-jiao-cheng.html</link><description># 前言
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题，还有乐子看</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/favicon.ico</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sat, 13 Dec 2025 02:24:20 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>EdgeTunnel优选教程</title><link>http://blog.traveler.dpdns.org/post/EdgeTunnel-you-xuan-jiao-cheng.html</link><description># 前言
 
 &gt; [!TIP]
 &gt; EdgeTunnel目前还只是Error 1101报错，但之后会不会封号还不清楚，最好是在小号上部署，名字不要写edgetunnel,tunnel,proxy之类的敏感词
@@ -53,7 +53,7 @@
 **好了接下来由我稍微描述一下事情全过程以及图片全过程**
 首先，我在前几天加入了[这个](https://qm.qq.com/q/duBtx8JfRm)群聊
 里面大多数是一些联机一起玩的小伙伴，我也没说啥
-然后今天（2025年12月7日），[KL_9191_1](https://res.abeim.cn/api/qq/?qq=764165526)在群中索要正版
+然后今天（2025年12月7日），[KL_9191](https://res.abeim.cn/api/qq/?qq=764165526)在群中索要正版
 我给了他一个途径[Gamehag](https://gamehag.com/r/Traveler114514)来免费获取一个Minecraft正版
 但是他的IQ太高，导致他误认为密码是QQ密码（他忘记了）
 于是我让他不要装 纯 ，不然我会忍不了开喷，就吵起来了
