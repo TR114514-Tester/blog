@@ -1,5 +1,6 @@
 // 添加高斯模糊程度变量（可调整）
-const BLUR_INTENSITY = '15px'; // 高斯模糊程度，可修改这个值
+const BLUR_INTENSITY = '10px'; // 高斯模糊程度，可修改这个值
+const BUTTON_HOVER_COLOR = '#000000'; // 右上角按钮悬浮颜色，可修改这个值（支持 #000000, rgb(255,0,0), rgba(255,0,0,0.8) 等格式）
 
 document.addEventListener('DOMContentLoaded', function() {
     const BACKGROUND = "http://blog.traveler.dpdns.org/assets/image/background.png";
@@ -147,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
         div.title-right .btn:hover {
             width: auto;
             border-radius: 2em !important;
-            background-color: rgba(60, 210, 205, 0.8);
+            background-color: ${BUTTON_HOVER_COLOR.startsWith('#') ? BUTTON_HOVER_COLOR + 'cc' : BUTTON_HOVER_COLOR} !important;
         }
         
         div.title-right .btn .btndescription {
@@ -263,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
         div.title-right .btn:hover {
             width: auto;
             border-radius: 2em !important;
-            background-color: rgba(60, 210, 205, 0.8);
+            background-color: ${BUTTON_HOVER_COLOR.startsWith('#') ? BUTTON_HOVER_COLOR + 'cc' : BUTTON_HOVER_COLOR} !important;
         }
 
         div.title-right .btn .btndescription {
@@ -374,7 +375,7 @@ document.addEventListener('DOMContentLoaded', function() {
         div.title-right .btn:hover {
             width: auto;
             border-radius: 2em !important;
-            background-color: rgba(60, 210, 205, 0.8);
+            background-color: ${BUTTON_HOVER_COLOR.startsWith('#') ? BUTTON_HOVER_COLOR + 'cc' : BUTTON_HOVER_COLOR} !important;
         }
         
         div.title-right .btn .btndescription {
