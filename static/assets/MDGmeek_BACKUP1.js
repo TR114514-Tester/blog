@@ -74,12 +74,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         .avatar {
-            width: 200px;
-            height: 200px;
+            width: 175px;
+            height: 175px;
         }
         
         #header h1 a {
-            margin-top: 30px;
+            margin-top: 25px;
             font-family: fantasy;
             margin-left: unset;
         }
