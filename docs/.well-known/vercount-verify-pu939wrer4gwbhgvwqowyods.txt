@@ -1,1 +1,1 @@
-ercount-domain-verify=blog.traveler.dpdns.org,pu939wrer4gwbhgvwqowyods
+vercount-domain-verify=blog.traveler.dpdns.org,pu939wrer4gwbhgvwqowyods
