@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.traveler.dpdns.org/assets/MYTheme_rain.js'></script><script src='https://blog.traveler.dpdns.org/live2d/autoload.js'><script src='https://blog.traveler.dpdns.org/assets/GmeekVercount.js'></script>
+    <link rel="icon" href="https://blog.traveler.dpdns.org/assets/image/icon.png">
+<meta name="description" content="# 前言
+本教程主要的思路就是：Gmeek生成博客在`docs`目录里面，就设置`CloudFlare Pages`的根目录为`docs`，然后绑定域名即可
+为什么部署到`CloudFlare Pages`？
+**因为国内Github访问速度不太理想**
+唯一加速的渠道我认为就是部署到`CloudFlare Pages`然后通过`CloudFlare CDN`进行'加速'
+# 教程
+首先我们来到`CloudFlare`的`Worker 和 Pages`
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/1.png)
+点击右上角的`创建应用程序`
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/2.png)
+点击下面的`Get started`
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/3.png)
+点击`导入现有Git 存储库`右边的`开始使用`
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/4.png)
+选择你的**Github账号**和你的**Gmeek仓库**
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/5.png)
+划到下面，找到**构建输出目录**，在这里输入`docs`，然后点击**保存并部署**
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/6.png)
+等待部署完毕
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/7.png)
+点击**添加自定义域**
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/8.png)
+绑定好你的域名就可以了
+# 效果图
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/9.png)
+速度不能说很快，但是在国内比`Github Pages`友好多了。">
+<meta property="og:title" content="将生成的Gmeek网页部署到CloudFlarePages">
+<meta property="og:description" content="# 前言
+本教程主要的思路就是：Gmeek生成博客在`docs`目录里面，就设置`CloudFlare Pages`的根目录为`docs`，然后绑定域名即可
+为什么部署到`CloudFlare Pages`？
+**因为国内Github访问速度不太理想**
+唯一加速的渠道我认为就是部署到`CloudFlare Pages`然后通过`CloudFlare CDN`进行'加速'
+# 教程
+首先我们来到`CloudFlare`的`Worker 和 Pages`
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/1.png)
+点击右上角的`创建应用程序`
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/2.png)
+点击下面的`Get started`
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/3.png)
+点击`导入现有Git 存储库`右边的`开始使用`
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/4.png)
+选择你的**Github账号**和你的**Gmeek仓库**
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/5.png)
+划到下面，找到**构建输出目录**，在这里输入`docs`，然后点击**保存并部署**
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/6.png)
+等待部署完毕
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/7.png)
+点击**添加自定义域**
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/8.png)
+绑定好你的域名就可以了
+# 效果图
+![img](https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/9.png)
+速度不能说很快，但是在国内比`Github Pages`友好多了。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://blog.traveler.dpdns.org/post/13.html">
+<meta property="og:image" content="https://blog.traveler.dpdns.org/assets/image/icon.png">
+<title>将生成的Gmeek网页部署到CloudFlarePages</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">将生成的Gmeek网页部署到CloudFlarePages</h1>
+<div class="title-right">
+    <a href="http://blog.traveler.dpdns.org" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/TR114514-Tester/myblog/issues/13" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>前言</h1>
+<p>本教程主要的思路就是：Gmeek生成博客在<code class="notranslate">docs</code>目录里面，就设置<code class="notranslate">CloudFlare Pages</code>的根目录为<code class="notranslate">docs</code>，然后绑定域名即可<br>
+为什么部署到<code class="notranslate">CloudFlare Pages</code>？<br>
+<strong>因为国内Github访问速度不太理想</strong><br>
+唯一加速的渠道我认为就是部署到<code class="notranslate">CloudFlare Pages</code>然后通过<code class="notranslate">CloudFlare CDN</code>进行'加速'</p>
+<h1>教程</h1>
+<p>首先我们来到<code class="notranslate">CloudFlare</code>的<code class="notranslate">Worker 和 Pages</code><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/5bc016e11bb080b4850266a579d61f229aeae3e9a9f58e439804d86553f936dd/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f312e706e67"><img src="https://camo.githubusercontent.com/5bc016e11bb080b4850266a579d61f229aeae3e9a9f58e439804d86553f936dd/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f312e706e67" alt="img" data-canonical-src="https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/1.png" style="max-width: 100%;"></a><br>
+点击右上角的<code class="notranslate">创建应用程序</code><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/578da8a5b26fb9fc49d9b226fa39ab7c59da51bb508430b95a38b3b52abdf906/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f322e706e67"><img src="https://camo.githubusercontent.com/578da8a5b26fb9fc49d9b226fa39ab7c59da51bb508430b95a38b3b52abdf906/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f322e706e67" alt="img" data-canonical-src="https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/2.png" style="max-width: 100%;"></a><br>
+点击下面的<code class="notranslate">Get started</code><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/cf543b7ff075aa0a94cf17abffb9e511970fada1639ae6d63d18650565cf55ea/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f332e706e67"><img src="https://camo.githubusercontent.com/cf543b7ff075aa0a94cf17abffb9e511970fada1639ae6d63d18650565cf55ea/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f332e706e67" alt="img" data-canonical-src="https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/3.png" style="max-width: 100%;"></a><br>
+点击<code class="notranslate">导入现有Git 存储库</code>右边的<code class="notranslate">开始使用</code><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/96e71d7cc8d9a24048dbbd98c5ba7d82b897cca45209b8c673503cae33ef2177/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f342e706e67"><img src="https://camo.githubusercontent.com/96e71d7cc8d9a24048dbbd98c5ba7d82b897cca45209b8c673503cae33ef2177/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f342e706e67" alt="img" data-canonical-src="https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/4.png" style="max-width: 100%;"></a><br>
+选择你的<strong>Github账号</strong>和你的<strong>Gmeek仓库</strong><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/883df79c7882771449cc55f386d7e899ef41463fee5a65459d8cd52da42326b9/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f352e706e67"><img src="https://camo.githubusercontent.com/883df79c7882771449cc55f386d7e899ef41463fee5a65459d8cd52da42326b9/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f352e706e67" alt="img" data-canonical-src="https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/5.png" style="max-width: 100%;"></a><br>
+划到下面，找到<strong>构建输出目录</strong>，在这里输入<code class="notranslate">docs</code>，然后点击<strong>保存并部署</strong><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/ea930d69add60e9de4bf291ab93bfa9f3677e4ffe63769eb69f331b9d34fa06c/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f362e706e67"><img src="https://camo.githubusercontent.com/ea930d69add60e9de4bf291ab93bfa9f3677e4ffe63769eb69f331b9d34fa06c/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f362e706e67" alt="img" data-canonical-src="https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/6.png" style="max-width: 100%;"></a><br>
+等待部署完毕<br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/c4c80e18cc1d17344720bbcd9ec1aff799f8dd1a0b21ca99c294d5de95ab8d1f/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f372e706e67"><img src="https://camo.githubusercontent.com/c4c80e18cc1d17344720bbcd9ec1aff799f8dd1a0b21ca99c294d5de95ab8d1f/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f372e706e67" alt="img" data-canonical-src="https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/7.png" style="max-width: 100%;"></a><br>
+点击<strong>添加自定义域</strong><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/376a20968bcf78270cef51e8415c1d33921b4e822dc0631a20288dd69ebecfd9/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f382e706e67"><img src="https://camo.githubusercontent.com/376a20968bcf78270cef51e8415c1d33921b4e822dc0631a20288dd69ebecfd9/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f382e706e67" alt="img" data-canonical-src="https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/8.png" style="max-width: 100%;"></a><br>
+绑定好你的域名就可以了</p>
+<h1>效果图</h1>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/79e37d98ade18d8004dc84798428d84230804cd0b3cec264276a5a035854d017/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f392e706e67"><img src="https://camo.githubusercontent.com/79e37d98ade18d8004dc84798428d84230804cd0b3cec264276a5a035854d017/68747470733a2f2f626c6f672e74726176656c65722e6470646e732e6f72672f5475746f7269616c2f436c6f7564466c6172655061676573476d65656b2f392e706e67" alt="img" data-canonical-src="https://blog.traveler.dpdns.org/Tutorial/CloudFlarePagesGmeek/9.png" style="max-width: 100%;"></a><br>
+速度不能说很快，但是在国内比<code class="notranslate">Github Pages</code>友好多了</p></div>
+<div style="font-size:small;margin-top:8px;float:right;">❤️ 转载文章请注明出处，谢谢！❤️</div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="http://blog.traveler.dpdns.org">TR114514的博客</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("07/24/2025"!=""){
+    var startSite=new Date("07/24/2025");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","TR114514-Tester/myblog");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","dark_colorblind");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+
+
+</script>
+<script src='https://blog.traveler.dpdns.org/assets/backtop.js'><script src='https://blog.traveler.dpdns.org/assets/codecopy.js'><script src='https://blog.traveler.dpdns.org/assets/pagination.js'></script><script src='https://blog.traveler.dpdns.org/assets/lightbox.js'></script>
+
+</html>
