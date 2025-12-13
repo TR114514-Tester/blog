@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const BLUR_STRENGTH = '8px'; // 模糊程度：5px, 8px, 10px, 15px等
     const BUTTON_HOVER_COLOR = '#3cd2cd'; // 右上角按钮悬停颜色
     const CARD_MAX_WIDTH = '1100px'; // 卡片最大宽度
-    const CARD_PADDING = '20px'; // 卡片内边距
+    const CARD_PADDING = '200px'; // 卡片内边距
     // ====================================================
     
     // ==================== 自动导入 MDUI 2 CSS 和 JS ====================
