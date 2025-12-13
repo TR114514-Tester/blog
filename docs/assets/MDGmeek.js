@@ -1,7 +1,6 @@
 // 添加高斯模糊程度变量（可调整）
 const BLUR_INTENSITY = '10px'; // 高斯模糊程度，可修改这个值
 const BUTTON_HOVER_COLOR = '#3cd2cd'; // 右上角按钮悬浮颜色，可修改这个值（支持 #000000, rgb(255,0,0), rgba(255,0,0,0.8) 等格式）
-const SIDENAV_ITEM_HEIGHT = '35px'; // SideNav-item 卡片高度，可调整这个值
 
 document.addEventListener('DOMContentLoaded', function() {
     const BACKGROUND = "http://blog.traveler.dpdns.org/assets/image/background.png";
@@ -39,52 +38,98 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(cardContainer);
     cardContainer.innerHTML = bodyContent;
     
-    // 为SideNav-item添加MDUI卡片样式
+    // 为SideNav-item添加MDUI卡片样式 - 简化版本
     function applySideNavCardStyles() {
-        const sideNavItems = document.querySelectorAll('.SideNav-item');
-        sideNavItems.forEach((item, index) => {
-            // 为每个SideNav-item添加MDUI卡片类
-            item.classList.add('mdui-card', 'mdui-card-content');
-            item.style.cssText += `
-                padding: 0 !important;
-                margin-bottom: 12px !important;
-                border-radius: 10px !important;
+        // 直接重置SideNav-item的样式
+        const sideNavStyle = document.createElement('style');
+        sideNavStyle.id = 'sidenav-card-styles';
+        sideNavStyle.textContent = `
+            .SideNav-item {
                 background: rgba(255, 255, 255, 0.25) !important;
                 backdrop-filter: blur(5px) !important;
                 -webkit-backdrop-filter: blur(5px) !important;
+                border-radius: 8px !important;
+                margin: 8px 0 !important;
+                padding: 12px !important;
                 border: 1px solid rgba(255, 255, 255, 0.2) !important;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                cursor: pointer;
-                height: ${SIDENAV_ITEM_HEIGHT} !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
-                animation: fadeInUp 0.4s ease-out forwards;
-                animation-delay: ${0.1 + index * 0.05}s;
-                opacity: 0;
-                transform: translateY(5px);
-            `;
-            
-            // 如果SideNav-item是链接，确保内部文字居中对齐
-            const link = item.querySelector('a');
-            if (link) {
-                link.style.cssText += `
-                    display: block !important;
-                    text-decoration: none !important;
-                    color: inherit !important;
-                    text-align: center !important;
-                    padding: 0 !important;
-                    width: 100% !important;
-                    height: 100% !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    font-weight: 500 !important;
-                    font-size: 15px !important;
-                `;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+                transition: all 0.3s ease !important;
+                cursor: pointer !important;
+                min-height: auto !important;
+                height: auto !important;
+                line-height: normal !important;
+                display: block !important;
+                text-align: center !important;
             }
-        });
+            
+            .SideNav-item:hover {
+                background: rgba(255, 255, 255, 0.35) !important;
+                transform: translateY(-2px) !important;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+            }
+            
+            .SideNav-item a {
+                display: block !important;
+                width: 100% !important;
+                text-decoration: none !important;
+                color: inherit !important;
+                font-weight: 500 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            
+            /* 覆盖任何可能继承的样式 */
+            .SideNav {
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 10px 0 !important;
+            }
+            
+            .SideNav * {
+                box-sizing: border-box !important;
+            }
+        `;
+        
+        // 如果已经存在这个样式，先移除
+        const existingStyle = document.getElementById('sidenav-card-styles');
+        if (existingStyle) {
+            existingStyle.remove();
+        }
+        
+        document.head.appendChild(sideNavStyle);
+        
+        // 确保所有SideNav-item都有正确的样式
+        setTimeout(() => {
+            const sideNavItems = document.querySelectorAll('.SideNav-item');
+            sideNavItems.forEach(item => {
+                // 移除所有可能的内联样式
+                item.removeAttribute('style');
+                
+                // 添加MDUI卡片类
+                if (!item.classList.contains('mdui-card')) {
+                    item.classList.add('mdui-card');
+                }
+                
+                // 设置内联样式以确保优先级
+                item.style.cssText = `
+                    background: rgba(255, 255, 255, 0.25) !important;
+                    backdrop-filter: blur(5px) !important;
+                    -webkit-backdrop-filter: blur(5px) !important;
+                    border-radius: 8px !important;
+                    margin: 8px 0 !important;
+                    padding: 12px !important;
+                    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+                    transition: all 0.3s ease !important;
+                    cursor: pointer !important;
+                    min-height: auto !important;
+                    height: auto !important;
+                    line-height: normal !important;
+                    display: block !important;
+                    text-align: center !important;
+                `;
+            });
+        }, 100);
     }
     
     //判断url，添加主题------------------------------------------------------------------------
@@ -161,55 +206,6 @@ document.addEventListener('DOMContentLoaded', function() {
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
         }
         
-        /* SideNav容器样式 */
-        .SideNav {
-            background: transparent !important;
-            border-radius: 10px;
-            min-width: unset;
-            padding: 0 !important;
-            margin: 20px 0 !important;
-        }
-        
-        /* SideNav-item MDUI卡片样式 - 更紧凑 */
-        .SideNav-item {
-            background: rgba(255, 255, 255, 0.25) !important;
-            backdrop-filter: blur(5px) !important;
-            -webkit-backdrop-filter: blur(5px) !important;
-            border-radius: 10px !important;
-            margin-bottom: 12px !important;
-            padding: 0 !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
-            height: ${SIDENAV_ITEM_HEIGHT} !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-        }
-        
-        .SideNav-item:hover {
-            background-color: rgba(255, 255, 255, 0.4) !important;
-            border-radius: 10px !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-        }
-        
-        .SideNav-item a {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            text-decoration: none !important;
-            color: inherit !important;
-            text-align: center !important;
-            padding: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            font-weight: 500 !important;
-            font-size: 15px !important;
-        }
-        
         /* 分页条 */
         .pagination a:hover, .pagination a:focus, .pagination span:hover, .pagination span:focus, .pagination em:hover, .pagination em:focus {
             border-color: rebeccapurple;
@@ -259,9 +255,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 button.appendChild(btndescription);
             }
         });
-        
-        // 应用SideNav卡片样式
-        setTimeout(applySideNavCardStyles, 100);
 
     } else if (currentUrl.includes('/post/') || currentUrl.includes('/link.html') || currentUrl.includes('/about.html')) {
         console.log('MDGmeek : 应用文章页主题');
@@ -378,9 +371,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 button.appendChild(btndescription);
             }
         });
-        
-        // 应用SideNav卡片样式（如果文章页也有SideNav）
-        setTimeout(applySideNavCardStyles, 100);
 
     } else if (currentUrl.includes('/tag.html')) {
         console.log('MDGmeek : 应用搜索页主题');
@@ -429,55 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
             border-radius: 16px !important;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        }
-        
-        /* SideNav容器样式 */
-        .SideNav {
-            background: transparent !important;
-            border-radius: 10px;
-            min-width: unset;
-            padding: 0 !important;
-            margin: 20px 0 !important;
-        }
-        
-        /* SideNav-item MDUI卡片样式 - 更紧凑 */
-        .SideNav-item {
-            background: rgba(255, 255, 255, 0.25) !important;
-            backdrop-filter: blur(5px) !important;
-            -webkit-backdrop-filter: blur(5px) !important;
-            border-radius: 10px !important;
-            margin-bottom: 12px !important;
-            padding: 0 !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
-            height: ${SIDENAV_ITEM_HEIGHT} !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-        }
-        
-        .SideNav-item:hover {
-            background-color: rgba(255, 255, 255, 0.4) !important;
-            border-radius: 10px !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-        }
-        
-        .SideNav-item a {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            text-decoration: none !important;
-            color: inherit !important;
-            text-align: center !important;
-            padding: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            font-weight: 500 !important;
-            font-size: 15px !important;
         }
         
         /* 右上角按钮 */
@@ -550,38 +491,59 @@ document.addEventListener('DOMContentLoaded', function() {
                 button.click();
             }
         });
-        
-        // 应用SideNav卡片样式
-        setTimeout(applySideNavCardStyles, 100);
 
     } else {
         console.log('MDGmeek : 未应用主题');
     }
     
-    // 添加默认卡片样式（适用于所有页面）
-    const defaultCardStyle = document.createElement("style");
-    defaultCardStyle.innerHTML = `
-        .mdui-card {
-            transition: all 0.3s ease;
-            min-height: 200px;
-        }
-        
-        .mdui-card:hover {
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
-        }
-        
-        /* SideNav-item卡片样式增强 */
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    `;
-    document.head.appendChild(defaultCardStyle);
-    
     // 延迟执行，确保DOM完全加载
     setTimeout(() => {
         applySideNavCardStyles();
-    }, 300);
+        console.log('MDGmeek : SideNav卡片样式已应用');
+    }, 500);
+    
+    // 添加一个更强的覆盖样式
+    const overrideStyle = document.createElement('style');
+    overrideStyle.textContent = `
+        /* 强制覆盖所有SideNav-item样式 */
+        .SideNav-item {
+            all: unset !important;
+            background: rgba(255, 255, 255, 0.25) !important;
+            backdrop-filter: blur(5px) !important;
+            -webkit-backdrop-filter: blur(5px) !important;
+            border-radius: 8px !important;
+            margin: 8px 0 !important;
+            padding: 12px 16px !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+            transition: all 0.3s ease !important;
+            cursor: pointer !important;
+            display: block !important;
+            text-align: center !important;
+            min-height: auto !important;
+            height: auto !important;
+            line-height: 1.5 !important;
+        }
+        
+        .SideNav-item:hover {
+            background: rgba(255, 255, 255, 0.35) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        .SideNav-item a {
+            display: block !important;
+            width: 100% !important;
+            text-decoration: none !important;
+            color: inherit !important;
+            font-weight: 500 !important;
+        }
+        
+        .SideNav {
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 10px 0 !important;
+        }
+    `;
+    document.head.appendChild(overrideStyle);
 });
