@@ -541,6 +541,68 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('MDGmeek : 未应用主题');
     }
     
+    // 为 notranslate 类添加 MDUI Roboto 字体
+    const notranslateStyle = document.createElement("style");
+    notranslateStyle.innerHTML = `
+        /* 为所有 notranslate 类应用 MDUI Roboto 字体 */
+        .notranslate {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+            font-weight: 400;
+            line-height: 1.5;
+            letter-spacing: 0.00938em;
+        }
+        
+        /* 为 notranslate 内的特定元素设置字体 */
+        .notranslate h1,
+        .notranslate h2,
+        .notranslate h3,
+        .notranslate h4,
+        .notranslate h5,
+        .notranslate h6 {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+            font-weight: 500;
+        }
+        
+        .notranslate code,
+        .notranslate pre {
+            font-family: 'Roboto Mono', 'Consolas', 'Monaco', 'Courier New', monospace !important;
+        }
+        
+        .notranslate blockquote {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+            font-style: italic;
+            font-weight: 300;
+        }
+        
+        /* 确保按钮也使用 Roboto 字体 */
+        .notranslate button,
+        .notranslate input,
+        .notranslate select,
+        .notranslate textarea {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+        }
+        
+        /* 表格中的文字也应用 Roboto 字体 */
+        .notranslate table,
+        .notranslate th,
+        .notranslate td {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+        }
+        
+        /* 列表项也应用 Roboto 字体 */
+        .notranslate ul,
+        .notranslate ol,
+        .notranslate li {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+        }
+        
+        /* 链接也应用 Roboto 字体 */
+        .notranslate a {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+        }
+    `;
+    document.head.appendChild(notranslateStyle);
+    
     // 添加默认卡片样式（适用于所有页面）
     const defaultCardStyle = document.createElement("style");
     defaultCardStyle.innerHTML = `
@@ -559,4 +621,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     `;
     document.head.appendChild(defaultCardStyle);
+    
+    // 导入 Roboto 字体（如果尚未导入）
+    const loadRobotoFont = () => {
+        const fontLink = document.createElement('link');
+        fontLink.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono&display=swap';
+        fontLink.rel = 'stylesheet';
+        fontLink.type = 'text/css';
+        
+        // 检查是否已加载 Roboto 字体
+        const existingFonts = document.querySelectorAll('link[href*="fonts.googleapis.com/css2?family=Roboto"]');
+        if (existingFonts.length === 0) {
+            document.head.appendChild(fontLink);
+            console.log('MDGmeek: Roboto 字体已加载');
+        }
+    };
+    
+    // 延迟加载字体，避免阻塞页面渲染
+    setTimeout(loadRobotoFont, 500);
 });
