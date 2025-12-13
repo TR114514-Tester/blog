@@ -38,6 +38,107 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(cardContainer);
     cardContainer.innerHTML = bodyContent;
     
+    // 美化 SideNav item 为 MDUI 卡片
+    function beautifySideNavItems() {
+        const sideNavItems = document.querySelectorAll('.SideNav-item');
+        
+        sideNavItems.forEach(item => {
+            // 创建卡片包装器
+            const cardWrapper = document.createElement('div');
+            cardWrapper.className = 'mdui-card mdui-hoverable mdui-ripple side-nav-card';
+            cardWrapper.style.cssText = `
+                margin-bottom: 10px;
+                border-radius: 12px;
+                overflow: hidden;
+                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            `;
+            
+            // 创建卡片内容
+            const cardContent = document.createElement('div');
+            cardContent.className = 'mdui-card-primary';
+            cardContent.style.cssText = `
+                padding: 16px;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.75) 100%);
+            `;
+            
+            // 获取原始链接内容
+            const link = item.querySelector('a');
+            if (link) {
+                // 复制链接内容到卡片
+                const linkClone = link.cloneNode(true);
+                linkClone.style.cssText = `
+                    display: block;
+                    color: #333;
+                    text-decoration: none;
+                    font-weight: 500;
+                    font-size: 16px;
+                    transition: color 0.3s ease;
+                `;
+                
+                // 添加图标（可以根据需要自定义）
+                const icon = document.createElement('i');
+                icon.className = 'mdui-icon material-icons';
+                icon.style.cssText = `
+                    float: right;
+                    color: #8A2BE2;
+                    opacity: 0.7;
+                    font-size: 20px;
+                `;
+                icon.textContent = 'chevron_right'; // MDUI 图标
+                
+                linkClone.appendChild(icon);
+                cardContent.appendChild(linkClone);
+            } else {
+                // 如果没有链接，直接复制内容
+                cardContent.innerHTML = item.innerHTML;
+            }
+            
+            // 组装卡片
+            cardWrapper.appendChild(cardContent);
+            
+            // 替换原始 item
+            item.parentNode.replaceChild(cardWrapper, item);
+        });
+    }
+    
+    // 添加 SideNav 卡片样式
+    const sideNavStyle = document.createElement('style');
+    sideNavStyle.innerHTML = `
+        .side-nav-card {
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .side-nav-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.2) !important;
+            border-color: rgba(138, 43, 226, 0.3) !important;
+        }
+        
+        .side-nav-card .mdui-card-primary a:hover {
+            color: ${BUTTON_HOVER_COLOR} !important;
+        }
+        
+        .side-nav-card .mdui-card-primary a:hover .mdui-icon {
+            opacity: 1;
+            transform: translateX(2px);
+        }
+        
+        .side-nav-card .mdui-icon {
+            transition: all 0.3s ease;
+        }
+        
+        /* 侧边导航容器样式 */
+        .SideNav {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 10px 0;
+        }
+    `;
+    document.head.appendChild(sideNavStyle);
+    
     //判断url，添加主题------------------------------------------------------------------------
     let currentUrl = window.location.pathname;
 
@@ -112,21 +213,23 @@ document.addEventListener('DOMContentLoaded', function() {
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
         }
         
+        /* 增强 SideNav 卡片效果 */
         .SideNav {
-            background: rgba(255, 255, 255, 0.3);
+            background: transparent !important;
             border-radius: 10px;
             min-width: unset;
+            padding: 15px 0;
         }
         
-        .SideNav-item:hover {
-            background-color: rgba(195, 228, 227, 0.7);
-            border-radius: 10px;
-            transform: scale(1.02);
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        .side-nav-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%) !important;
+            margin-bottom: 12px !important;
         }
         
-        .SideNav-item {
-            transition: 0.5s;
+        .side-nav-card:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%) !important;
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.25) !important;
         }
         
         /* 分页条 */
@@ -344,21 +447,23 @@ document.addEventListener('DOMContentLoaded', function() {
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
         }
         
+        /* 增强 SideNav 卡片效果 */
         .SideNav {
-            background: rgba(255, 255, 255, 0.3);
+            background: transparent !important;
             border-radius: 10px;
             min-width: unset;
+            padding: 15px 0;
         }
         
-        .SideNav-item:hover {
-            background-color: rgba(195, 228, 227, 0.7);
-            border-radius: 10px;
-            transform: scale(1.02);
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        .side-nav-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%) !important;
+            margin-bottom: 12px !important;
         }
         
-        .SideNav-item {
-            transition: 0.5s;
+        .side-nav-card:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%) !important;
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.25) !important;
         }
         
         /* 右上角按钮 */
@@ -447,6 +552,11 @@ document.addEventListener('DOMContentLoaded', function() {
         .mdui-card:hover {
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
         }
+        
+        /* 等待页面加载完成后执行 SideNav 美化 */
+        window.addEventListener('load', function() {
+            setTimeout(beautifySideNavItems, 100);
+        });
     `;
     document.head.appendChild(defaultCardStyle);
 });
