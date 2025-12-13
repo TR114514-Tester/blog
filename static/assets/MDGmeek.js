@@ -2,6 +2,8 @@
 const BLUR_INTENSITY = '8px'; // 高斯模糊程度，可修改这个值
 const BUTTON_HOVER_COLOR = '#8A2BE2'; // 右上角按钮悬浮颜色，可修改这个值（支持 #000000, rgb(255,0,0), rgba(255,0,0,0.8) 等格式）
 const BACKGROUND = "http://blog.traveler.dpdns.org/assets/image/background.png";
+const NOTRANSLATE_BLUR_INTENSITY = '5px'; // 新增：为 notranslate 元素单独设置模糊程度
+
 document.addEventListener('DOMContentLoaded', function() {
 
     
@@ -99,6 +101,48 @@ document.addEventListener('DOMContentLoaded', function() {
             // 替换原始 item
             item.parentNode.replaceChild(cardWrapper, item);
         });
+    }
+    
+    // 为所有 notranslate 元素添加高斯模糊效果
+    function addBlurToNotranslateElements() {
+        const notranslateElements = document.querySelectorAll('.notranslate');
+        
+        notranslateElements.forEach(element => {
+            // 检查元素是否已经有样式
+            const existingStyle = element.getAttribute('style') || '';
+            
+            // 添加高斯模糊和背景效果
+            element.style.cssText = existingStyle + `
+                backdrop-filter: blur(${NOTRANSLATE_BLUR_INTENSITY}) !important;
+                -webkit-backdrop-filter: blur(${NOTRANSLATE_BLUR_INTENSITY}) !important;
+                background: rgba(255, 255, 255, 0.25) !important;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 10px 0;
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            `;
+            
+            // 添加鼠标悬停效果
+            element.addEventListener('mouseenter', function() {
+                this.style.backdropFilter = `blur(${parseInt(NOTRANSLATE_BLUR_INTENSITY) + 2}px)`;
+                this.style.webkitBackdropFilter = `blur(${parseInt(NOTRANSLATE_BLUR_INTENSITY) + 2}px)`;
+                this.style.boxShadow = '0 6px 20px rgba(138, 43, 226, 0.2)';
+                this.style.borderColor = 'rgba(138, 43, 226, 0.5)';
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.backdropFilter = `blur(${NOTRANSLATE_BLUR_INTENSITY})`;
+                this.style.webkitBackdropFilter = `blur(${NOTRANSLATE_BLUR_INTENSITY})`;
+                this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                this.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        console.log(`MDGmeek: 已为 ${notranslateElements.length} 个 notranslate 元素添加高斯模糊效果`);
     }
     
     // 添加 SideNav 卡片样式
@@ -541,7 +585,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('MDGmeek : 未应用主题');
     }
     
-    // 为 notranslate 类添加 MDUI Roboto 字体
+    // 为 notranslate 类添加 MDUI Roboto 字体和高斯模糊
     const notranslateStyle = document.createElement("style");
     notranslateStyle.innerHTML = `
         /* 为所有 notranslate 类应用 MDUI Roboto 字体 */
@@ -615,10 +659,34 @@ document.addEventListener('DOMContentLoaded', function() {
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
         }
         
-        /* 等待页面加载完成后执行 SideNav 美化 */
+        /* 等待页面加载完成后执行 SideNav 美化和 notranslate 元素处理 */
         window.addEventListener('load', function() {
-            setTimeout(beautifySideNavItems, 100);
+            setTimeout(function() {
+                beautifySideNavItems();
+                addBlurToNotranslateElements();
+            }, 100);
         });
+        
+        /* notranslate 元素的特殊样式（增强效果） */
+        .notranslate-blur-enhanced {
+            backdrop-filter: blur(${NOTRANSLATE_BLUR_INTENSITY}) !important;
+            -webkit-backdrop-filter: blur(${NOTRANSLATE_BLUR_INTENSITY}) !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+            padding: 20px !important;
+            margin: 15px 0 !important;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        }
+        
+        .notranslate-blur-enhanced:hover {
+            backdrop-filter: blur(${parseInt(NOTRANSLATE_BLUR_INTENSITY) + 3}px) !important;
+            -webkit-backdrop-filter: blur(${parseInt(NOTRANSLATE_BLUR_INTENSITY) + 3}px) !important;
+            box-shadow: 0 8px 30px rgba(138, 43, 226, 0.25) !important;
+            border-color: ${BUTTON_HOVER_COLOR} !important;
+            transform: translateY(-3px) !important;
+        }
     `;
     document.head.appendChild(defaultCardStyle);
     
@@ -639,4 +707,30 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 延迟加载字体，避免阻塞页面渲染
     setTimeout(loadRobotoFont, 500);
+    
+    // 监听 DOM 变化，动态添加 notranslate 模糊效果（适用于动态加载的内容）
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+                // 检查新添加的节点中是否有 notranslate 元素
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1 && node.classList && node.classList.contains('notranslate')) {
+                        // 为新添加的 notranslate 元素添加模糊效果
+                        setTimeout(addBlurToNotranslateElements, 50);
+                    } else if (node.nodeType === 1 && node.querySelectorAll) {
+                        const notranslateElements = node.querySelectorAll('.notranslate');
+                        if (notranslateElements.length > 0) {
+                            setTimeout(addBlurToNotranslateElements, 50);
+                        }
+                    }
+                });
+            }
+        });
+    });
+    
+    // 开始观察 DOM 变化
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
 });
