@@ -49,10 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let rainstyle = document.createElement('style');
         rainstyle.type = 'text/css';
         rainstyle.innerHTML = `
-            * {
-                padding: 0;
-                margin: 0;
-            }
             .raincontent {
                 position: fixed;
                 top: 0;
@@ -99,10 +95,14 @@ document.addEventListener('DOMContentLoaded', function() {
             let boxHeight = window.innerHeight;
             let boxWidth = window.innerWidth;
             
-            // 清空现有的雨滴
-            box.innerHTML = '';
+            // 存储所有活跃的雨滴
+            let activeRaindrops = [];
             
-            // 创建雨滴
+            // 存储定时器ID
+            let rainTimer = null;
+            let rainInterval = null;
+            
+            // 创建单个雨滴
             function createRaindrop() {
                 // 创建一个新的div元素表示雨点
                 let rain = document.createElement('div');
@@ -132,58 +132,161 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 将雨点元素添加到rainBox中
                 box.appendChild(rain);
                 
-                // 雨滴下落动画
-                let position = -50;
-                let speed = 2 + Math.random() * 3;
-                let acceleration = 0.05;
+                // 雨滴数据对象
+                const raindropData = {
+                    element: rain,
+                    position: -50,
+                    speed: 2 + Math.random() * 3,
+                    acceleration: 0.05,
+                    width: boxWidth
+                };
                 
-                function fall() {
-                    position += speed;
-                    speed += acceleration;
-                    rain.style.top = position + 'px';
-                    
-                    // 如果雨点到达底部，则移除雨点
-                    if (position > boxHeight) {
-                        box.removeChild(rain);
-                        return;
-                    }
-                    
-                    // 继续下落
-                    requestAnimationFrame(fall);
-                }
+                // 添加到活跃雨滴数组
+                activeRaindrops.push(raindropData);
                 
-                // 开始下落
-                requestAnimationFrame(fall);
+                return raindropData;
             }
             
-            // 创建多个雨滴
-            function createRaindrops() {
+            // 更新所有雨滴位置
+            function updateRaindrops() {
+                // 使用requestAnimationFrame实现流畅动画
+                rainTimer = requestAnimationFrame(updateRaindrops);
+                
+                // 更新每个活跃雨滴的位置
+                for (let i = activeRaindrops.length - 1; i >= 0; i--) {
+                    const raindrop = activeRaindrops[i];
+                    
+                    // 更新位置和速度
+                    raindrop.position += raindrop.speed;
+                    raindrop.speed += raindrop.acceleration;
+                    raindrop.element.style.top = raindrop.position + 'px';
+                    
+                    // 如果雨滴超出屏幕底部，移除它
+                    if (raindrop.position > boxHeight) {
+                        if (raindrop.element.parentNode === box) {
+                            box.removeChild(raindrop.element);
+                        }
+                        activeRaindrops.splice(i, 1);
+                    }
+                }
+            }
+            
+            // 创建一批雨滴
+            function createRaindropsBatch() {
+                // 只在页面可见时创建雨滴
+                if (document.hidden) return;
+                
                 // 根据屏幕宽度计算雨滴数量
-                let rainCount = Math.floor(boxWidth / 20);
+                let rainCount = Math.floor(boxWidth / 30); // 减少密度，避免过多
+                
+                // 限制最大雨滴数量
+                if (activeRaindrops.length > 200) {
+                    return; // 如果已经有太多雨滴，不再创建
+                }
                 
                 for (let i = 0; i < rainCount; i++) {
                     // 延迟创建雨滴，形成连续下雨效果
-                    setTimeout(createRaindrop, Math.random() * 1000);
+                    setTimeout(() => {
+                        if (!document.hidden) { // 再次检查页面是否可见
+                            createRaindrop();
+                        }
+                    }, Math.random() * 500); // 减小创建间隔
                 }
             }
             
-            // 初始化创建雨滴
-            createRaindrops();
+            // 清空所有雨滴
+            function clearAllRaindrops() {
+                // 取消动画帧
+                if (rainTimer) {
+                    cancelAnimationFrame(rainTimer);
+                    rainTimer = null;
+                }
+                
+                // 清除定时器
+                if (rainInterval) {
+                    clearInterval(rainInterval);
+                    rainInterval = null;
+                }
+                
+                // 移除所有雨滴元素
+                box.innerHTML = '';
+                
+                // 清空雨滴数组
+                activeRaindrops = [];
+            }
             
-            // 每隔一段时间创建一批新的雨滴
-            setInterval(createRaindrops, 2000);
+            // 重新开始下雨
+            function restartRain() {
+                clearAllRaindrops();
+                startRain();
+            }
             
-            // 窗口大小变化时重新初始化
-            let resizeTimer;
+            // 开始下雨
+            function startRain() {
+                // 开始动画循环
+                updateRaindrops();
+                
+                // 每2秒创建一批新的雨滴
+                rainInterval = setInterval(createRaindropsBatch, 2000);
+                
+                // 立即创建第一批雨滴
+                createRaindropsBatch();
+            }
+            
+            // 页面可见性变化处理
+            function handleVisibilityChange() {
+                if (document.hidden) {
+                    // 页面隐藏时，停止创建新雨滴并逐渐清除现有雨滴
+                    if (rainInterval) {
+                        clearInterval(rainInterval);
+                        rainInterval = null;
+                    }
+                    
+                    // 加快雨滴下落速度，快速清空
+                    activeRaindrops.forEach(raindrop => {
+                        raindrop.speed = 10; // 加快速度
+                        raindrop.acceleration = 0.1; // 加快加速度
+                    });
+                    
+                    // 设置超时，如果在隐藏期间没有返回，则完全清除
+                    setTimeout(() => {
+                        if (document.hidden) {
+                            clearAllRaindrops();
+                        }
+                    }, 1000);
+                } else {
+                    // 页面显示时，重新开始下雨
+                    restartRain();
+                }
+            }
+            
+            // 监听页面可见性变化
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+            
+            // 监听窗口大小变化
+            let resizeTimeout;
             window.addEventListener('resize', function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
                     boxHeight = window.innerHeight;
                     boxWidth = window.innerWidth;
-                    box.innerHTML = '';
-                    createRaindrops();
+                    
+                    // 重新计算现有雨滴的位置（确保不会超出新边界）
+                    activeRaindrops.forEach(raindrop => {
+                        // 如果雨滴超出新的屏幕宽度，移除它
+                        const left = parseFloat(raindrop.element.style.left);
+                        if (left > boxWidth) {
+                            if (raindrop.element.parentNode === box) {
+                                box.removeChild(raindrop.element);
+                            }
+                            activeRaindrops = activeRaindrops.filter(rd => rd !== raindrop);
+                        }
+                    });
                 }, 250);
             });
+            
+            // 开始下雨效果
+            startRain();
         }
         
         // 等待页面加载完成后初始化下雨效果
