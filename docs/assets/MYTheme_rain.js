@@ -401,8 +401,12 @@ document.addEventListener('DOMContentLoaded', function() {
     //判断url，添加主题------------------------------------------------------------------------
     let currentUrl = window.location.pathname;
 
-    if (currentUrl.includes('/index.html') || currentUrl === "/") {
-        console.log('MDGmeek : 应用主页主题');
+    // 定义主页主题应用的路径规则
+    const isHomePage = currentUrl.includes('/index.html') || currentUrl === "/";
+    const isPageWithNumber = /\/page\d+\.html$/i.test(currentUrl); // 匹配 page数字.html
+
+    if (isHomePage || isPageWithNumber) {
+        console.log('MDGmeek : 应用主页主题（主页或分页）');
 
         //主页主题------------------------------------------------------------------------------
         let style = document.createElement("style");
