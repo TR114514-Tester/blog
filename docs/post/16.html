@@ -26,7 +26,7 @@ ProxyIP指的是在CloudFlare Workers中那些能够成功代理连接到 Cloudf
 <meta property="og:url" content="http://blog.traveler.dpdns.org/post/16.html">
 <meta property="og:image" content="https://blog.traveler.dpdns.org/assets/image/icon.png">
 <title>获取CloudFlare ProxyIP</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -100,7 +100,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </blockquote>
 <p>这意味着 Cloudflare Workers 无法直接连接到 Cloudflare 自有的 IP 地址段。为了解决这个限制，需要借助第三方云服务商的服务器也就是Workers 节点无法直接连接到 Cloudflare 自有的 IP 地址段<br>
 所以我们要<code class="notranslate">CloudFlare Workers  发起请求 &gt; PROXYIP/SOCKS5/HTTP 服务器  第三方代理 &gt; Cloudflare 服务  目标服务</code></p>
-<h1>教程</h1>
+<h1>手动获取</h1>
 <p>打开<a href="https://ipdb.api.030101.xyz/?type=proxy" rel="nofollow">https://ipdb.api.030101.xyz/?type=proxy</a>获取<code class="notranslate">ProxyIP</code>列表<br>
 访问后如下图所示</p>
 <pre class="notranslate"><code class="notranslate">8.222.139.227
@@ -121,20 +121,6 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 8.212.41.98
 8.222.202.83
 141.148.234.169
-141.148.225.150
-141.148.228.176
-141.148.229.131
-146.56.190.143
-144.21.42.32
-138.2.21.47
-64.110.77.205
-143.47.188.79
-141.147.55.228
-143.47.224.46
-141.147.182.244
-141.148.228.124
-146.56.163.227
-131.186.58.9
 ...
 </code></pre>
 <p><code class="notranslate">Ctrl + A</code>全选然后<code class="notranslate">Ctrl + C</code>复制<br>
@@ -145,6 +131,97 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 搜索你需要的区域，比如<code class="notranslate">HK</code><br>
 这样我们就获取了<code class="notranslate">HK</code>的<code class="notranslate">ProxyIP</code><br>
 接下来该干什么你自己应该知道了   :D</p>
+<h1>cmliu大佬获取</h1>
+<p>打开 <a href="https://check.proxyip.cmliussss.net/" rel="nofollow">Check ProxyIP - 代理IP检测服务</a> ，直接输入 <code class="notranslate">proxyip.cmliussss.net</code> 进行检测<br>
+就会显示出很多<code class="notranslate">ProxyIP</code>，选择自己想要的即可<br>
+或者输入<code class="notranslate">proxyip.hk.cmliussss.net</code>，<code class="notranslate">proxyip.us.cmliussss.net</code>这种带地区码的形式<br>
+这样可以只优选hk，us这种地区的<code class="notranslate">ProxyIP</code></p>
+<h1>Python脚本获取</h1>
+<p><strong>1.获取ip列表</strong><br>
+先获取<code class="notranslate">ProxyIP</code>列表<br>
+可以使用上面任意一种办法获取，推荐第一种<br>
+保存到<code class="notranslate">ip.txt</code><br>
+注意格式<br>
+内容：</p>
+<pre class="notranslate"><code class="notranslate">1.1.1.1
+2.2.2.2
+</code></pre>
+<p><strong>2.创建python文件</strong><br>
+随便创建一个python文件，比如<code class="notranslate">cf_proxyip.py</code></p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-c">#cf_proxyip.py</span>
+<span class="pl-c">#!/usr/bin/env python3</span>
+<span class="pl-k">import</span> <span class="pl-s1">asyncio</span>, <span class="pl-s1">aiohttp</span>, <span class="pl-s1">csv</span>
+
+<span class="pl-c1">INPUT</span> <span class="pl-c1">=</span> <span class="pl-s">'ip.txt'</span>  <span class="pl-c"># 输入文件路径，假设 IP 地址都在 ip.txt 中</span>
+<span class="pl-c1">OUTPUT</span> <span class="pl-c1">=</span> <span class="pl-s">'results.csv'</span>  <span class="pl-c"># 输出文件路径</span>
+<span class="pl-c1">CONCURRENCY</span> <span class="pl-c1">=</span> <span class="pl-c1">200</span>  <span class="pl-c"># 控制并发请求数</span>
+<span class="pl-c1">TIMEOUT</span> <span class="pl-c1">=</span> <span class="pl-c1">10</span>  <span class="pl-c"># 设置超时时间</span>
+<span class="pl-c1">URL</span> <span class="pl-c1">=</span> <span class="pl-s">'https://check.proxyip.cmliussss.net/check?proxyip={}'</span>  <span class="pl-c"># 请求的 URL</span>
+
+<span class="pl-k">async</span> <span class="pl-k">def</span> <span class="pl-en">fetch</span>(<span class="pl-s1">session</span>, <span class="pl-s1">ipraw</span>, <span class="pl-s1">sem</span>):
+    <span class="pl-k">if</span> <span class="pl-s">':'</span> <span class="pl-c1"><span class="pl-c1">not</span> <span class="pl-c1">in</span></span> <span class="pl-s1">ipraw</span>:
+        <span class="pl-s1">ipraw</span> <span class="pl-c1">=</span> <span class="pl-s1">ipraw</span> <span class="pl-c1">+</span> <span class="pl-s">':443'</span>  <span class="pl-c"># 如果没有端口，默认加上 :443</span>
+    <span class="pl-k">async</span> <span class="pl-k">with</span> <span class="pl-s1">sem</span>:
+        <span class="pl-k">try</span>:
+            <span class="pl-k">async</span> <span class="pl-k">with</span> <span class="pl-s1">session</span>.<span class="pl-c1">get</span>(<span class="pl-c1">URL</span>.<span class="pl-c1">format</span>(<span class="pl-s1">ipraw</span>), <span class="pl-s1">timeout</span><span class="pl-c1">=</span><span class="pl-c1">TIMEOUT</span>) <span class="pl-k">as</span> <span class="pl-s1">r</span>:
+                <span class="pl-s1">text</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">r</span>.<span class="pl-c1">text</span>()
+                <span class="pl-k">try</span>:
+                    <span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">r</span>.<span class="pl-c1">json</span>()  <span class="pl-c"># 尝试解析为 JSON</span>
+                <span class="pl-k">except</span>:
+                    <span class="pl-s1">data</span> <span class="pl-c1">=</span> {<span class="pl-s">"raw"</span>: <span class="pl-s1">text</span>}  <span class="pl-c"># 如果解析失败，保存原始响应</span>
+                <span class="pl-k">return</span> <span class="pl-s1">ipraw</span>, <span class="pl-s1">data</span>
+        <span class="pl-k">except</span> <span class="pl-v">Exception</span> <span class="pl-k">as</span> <span class="pl-s1">e</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">ipraw</span>, {<span class="pl-s">"error"</span>: <span class="pl-en">str</span>(<span class="pl-s1">e</span>)}
+			
+<span class="pl-k">async</span> <span class="pl-k">def</span> <span class="pl-en">main</span>():
+    <span class="pl-s1">ips</span> <span class="pl-c1">=</span> [<span class="pl-s1">line</span>.<span class="pl-c1">strip</span>() <span class="pl-k">for</span> <span class="pl-s1">line</span> <span class="pl-c1">in</span> <span class="pl-en">open</span>(<span class="pl-c1">INPUT</span>) <span class="pl-k">if</span> <span class="pl-s1">line</span>.<span class="pl-c1">strip</span>()]  <span class="pl-c"># 读取 IP 文件，去除空行</span>
+    <span class="pl-s1">sem</span> <span class="pl-c1">=</span> <span class="pl-s1">asyncio</span>.<span class="pl-c1">Semaphore</span>(<span class="pl-c1">CONCURRENCY</span>)  <span class="pl-c"># 设置并发数限制</span>
+    <span class="pl-s1">timeout</span> <span class="pl-c1">=</span> <span class="pl-s1">aiohttp</span>.<span class="pl-c1">ClientTimeout</span>(<span class="pl-s1">total</span><span class="pl-c1">=</span><span class="pl-c1">TIMEOUT</span>)  <span class="pl-c"># 设置总超时</span>
+    <span class="pl-k">async</span> <span class="pl-k">with</span> <span class="pl-s1">aiohttp</span>.<span class="pl-c1">ClientSession</span>(<span class="pl-s1">timeout</span><span class="pl-c1">=</span><span class="pl-s1">timeout</span>) <span class="pl-k">as</span> <span class="pl-s1">sess</span>:
+        <span class="pl-s1">tasks</span> <span class="pl-c1">=</span> [<span class="pl-en">fetch</span>(<span class="pl-s1">sess</span>, <span class="pl-s1">ip</span>, <span class="pl-s1">sem</span>) <span class="pl-k">for</span> <span class="pl-s1">ip</span> <span class="pl-c1">in</span> <span class="pl-s1">ips</span>]  <span class="pl-c"># 为每个 IP 创建请求任务</span>
+        <span class="pl-s1">results</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">asyncio</span>.<span class="pl-c1">gather</span>(<span class="pl-c1">*</span><span class="pl-s1">tasks</span>)  <span class="pl-c"># 并发执行请求</span>
+		
+    <span class="pl-c"># 保存结果到 CSV 文件</span>
+    <span class="pl-k">with</span> <span class="pl-en">open</span>(<span class="pl-c1">OUTPUT</span>, <span class="pl-s">'w'</span>, <span class="pl-s1">newline</span><span class="pl-c1">=</span><span class="pl-s">''</span>, <span class="pl-s1">encoding</span><span class="pl-c1">=</span><span class="pl-s">'utf-8'</span>) <span class="pl-k">as</span> <span class="pl-s1">f</span>:
+        <span class="pl-s1">writer</span> <span class="pl-c1">=</span> <span class="pl-s1">csv</span>.<span class="pl-c1">writer</span>(<span class="pl-s1">f</span>)
+        <span class="pl-s1">writer</span>.<span class="pl-c1">writerow</span>([<span class="pl-s">'input'</span>, <span class="pl-s">'proxyIP'</span>, <span class="pl-s">'portRemote'</span>, <span class="pl-s">'success'</span>, <span class="pl-s">'colo'</span>, <span class="pl-s">'responseTime'</span>, <span class="pl-s">'message'</span>, <span class="pl-s">'timestamp'</span>, <span class="pl-s">'error'</span>, <span class="pl-s">'raw'</span>])
+        <span class="pl-k">for</span> <span class="pl-s1">ipraw</span>, <span class="pl-s1">data</span> <span class="pl-c1">in</span> <span class="pl-s1">results</span>:
+            <span class="pl-k">if</span> <span class="pl-en">isinstance</span>(<span class="pl-s1">data</span>, <span class="pl-s1">dict</span>):
+                <span class="pl-s1">writer</span>.<span class="pl-c1">writerow</span>([
+                    <span class="pl-s1">ipraw</span>,
+                    <span class="pl-s1">data</span>.<span class="pl-c1">get</span>(<span class="pl-s">'proxyIP'</span>, <span class="pl-s">''</span>),
+                    <span class="pl-s1">data</span>.<span class="pl-c1">get</span>(<span class="pl-s">'portRemote'</span>, <span class="pl-s">''</span>),
+                    <span class="pl-s1">data</span>.<span class="pl-c1">get</span>(<span class="pl-s">'success'</span>, <span class="pl-s">''</span>),
+                    <span class="pl-s1">data</span>.<span class="pl-c1">get</span>(<span class="pl-s">'colo'</span>, <span class="pl-s">''</span>),
+                    <span class="pl-s1">data</span>.<span class="pl-c1">get</span>(<span class="pl-s">'responseTime'</span>, <span class="pl-s">''</span>),
+                    <span class="pl-s1">data</span>.<span class="pl-c1">get</span>(<span class="pl-s">'message'</span>, <span class="pl-s">''</span>),
+                    <span class="pl-s1">data</span>.<span class="pl-c1">get</span>(<span class="pl-s">'timestamp'</span>, <span class="pl-s">''</span>),
+                    <span class="pl-s1">data</span>.<span class="pl-c1">get</span>(<span class="pl-s">'error'</span>, <span class="pl-s">''</span>),
+                    <span class="pl-en">str</span>(<span class="pl-s1">data</span>.<span class="pl-c1">get</span>(<span class="pl-s">'raw'</span>, <span class="pl-s1">data</span>))  <span class="pl-c"># 保留原始数据</span>
+                ])
+            <span class="pl-k">else</span>:
+                <span class="pl-s1">writer</span>.<span class="pl-c1">writerow</span>([<span class="pl-s1">ipraw</span>, <span class="pl-s">''</span>, <span class="pl-s">''</span>, <span class="pl-s">''</span>, <span class="pl-s">''</span>, <span class="pl-s">''</span>, <span class="pl-s">''</span>, <span class="pl-s">''</span>, <span class="pl-s">'unexpected'</span>, <span class="pl-s">''</span>])
+	
+    <span class="pl-en">print</span>(<span class="pl-s">"done -&gt;"</span>, <span class="pl-c1">OUTPUT</span>)  <span class="pl-c"># 输出文件生成提示</span>
+	
+<span class="pl-k">if</span> <span class="pl-s1">__name__</span> <span class="pl-c1">==</span> <span class="pl-s">"__main__"</span>:
+    <span class="pl-s1">asyncio</span>.<span class="pl-c1">run</span>(<span class="pl-en">main</span>())  <span class="pl-c"># 启动异步任务</span></pre></div>
+<p><strong>3.开始优选</strong><br>
+依次输入下列命令即可</p>
+<pre class="notranslate"><code class="notranslate"># 创建一个虚拟环境
+python3 -m venv myenv
+
+# 激活虚拟环境
+source myenv/bin/activate
+
+# 安装 aiohttp
+pip install aiohttp
+
+# 运行脚本
+python3 cf_proxyip.py
+</code></pre>
+<p><strong>4.查看效果</strong><br>
+打开<code class="notranslate">result.csv</code>即可</p>
 <h1>实际应用效果</h1>
 <blockquote>
 <p>👤 访问非 Cloudflare CDN 站点时（如油管、谷歌等），你的 IP 归属地由「优选 IP」决定<br>
