@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 02:33:17 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>搭建一个属于自己的我的世界服务器</title><link>http://blog.traveler.dpdns.org/post/18.html</link><description># 前言
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 04:51:59 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>搭建一个属于自己的我的世界服务器</title><link>http://blog.traveler.dpdns.org/post/18.html</link><description># 前言
 
 &gt; [!TIP]
 &gt; 仅用于朋友联机使用
@@ -16,6 +16,70 @@
 | Java21  | 1.20.5及以上  |
 
 # 下载核心
+
+| 核心  | 类型  |
+| ------------ | ------------ |
+| [Vanilla](https://www.minecraft.net/zh-hans/download/server)  | 原版服  |
+| [Paper](https://papermc.io/downloads/paper)  | 插件服  |
+| [Purpur](https://purpurmc.org/)  | 插件服  |
+| [Leaf](https://www.leafmc.one/)  | 插件服  |
+| [Leaves](https://leavesmc.org/)  | 插件服  |
+| [Spigot](https://getbukkit.org/download/spigot)  | 插件服  |
+| [Forge](https://files.minecraftforge.net/net/minecraftforge/forge/)  | 模组服  |
+| [Fabric](https://fabricmc.net/use/server/)  | 模组服  |
+| [NeoForge](https://neoforged.net/)  | 模组服  |
+| [CatServer](https://catmc.org/)  | 插件/模组服  |
+| [Arclight](https://arclight.izzel.io/)  | 插件/模组服  |
+| [Mohist](https://mohistmc.com/software/mohist)  | 插件/模组服  |
+| [Folia](https://papermc.io/software/folia/)  | 插件服  |
+| 说明  | 插件服可以加插件（TPA等），模组服可以加模组（农夫乐事等），插件/模组服两种都能加，Folia建议用在多核服务器上  |
+| 集合下载链接  | 找核心时看到的，大部分核心都有，[链接](https://mcutils.com/server-jars)  |
+
+下载好后就要启动核心了，按下`Win + R`打开`运行`，输入`cmd`
+会出现一个黑色的窗口，输入下面的
+
+```
+java -version
+```
+如果有信息类似于下面这样就行
+```
+C:\Users\admin&gt;java -version
+openjdk version '25.0.1' 2025-10-21 LTS
+OpenJDK Runtime Environment Zulu25.30+17-CA (build 25.0.1+8-LTS)
+OpenJDK 64-Bit Server VM Zulu25.30+17-CA (build 25.0.1+8-LTS, mixed mode, sharing)
+```
+
+接下来把下载下来的核心重命名为`server.jar`
+其他的也可以，例如：`a.jar`,`b.jar`，上面纯属是因为好记
+创建一个文件夹，但是不要有中文，比如`C:/Users/admin/服务器/`
+应该修改为`C:/Users/admin/Server/`
+把我们的`server.jar`放到这个文件夹里面
+依旧`Win + R`打开运行，输入`cmd`打开CMD
+输入下面的，`cd `后面的是你的核心存放的文件夹
+
+```
+cd C:/Users/admin/Server
+```
+
+接下来我们在里面输入
+
+```
+java -jar server.jar
+```
+
+后面你会看到一串黄色的东西
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
