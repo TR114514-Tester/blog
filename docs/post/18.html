@@ -75,9 +75,39 @@ cd C:/Users/admin/Server
 java -jar server.jar
 ```
 
-后面你会看到一串黄色的东西
+后面你会看到一串黄色的东西，也就是下面这个`Failed to load eula.txt`
 
+```
+Downloading mojang_1.20.4.jar
+Applying patches
+Starting org.bukkit.craftbukkit.Main
+*** Warning, you've not updated in a while! ***
+*** Please download a new build as per instructions from https://papermc.io/downloads/paper ***
+System Info: Java 25 (OpenJDK 64-Bit Server VM 25.0.1+8-LTS) Host: Windows 11 10.0 (amd64)
+Loading libraries, please wait...
+[12:53:39 WARN]: Failed to load eula.txt
+[12:53:39 INFO]: You need to agree to the EULA in order to run the server. Go to eula.txt for more info.
+```
 
+这个时候，打开你的核心存放目录也就是`C:/Users/admin/Server./`
+找到eula.txt这个文件，双击打开它
+原本他是这样的
+```
+#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
+#Sun Dec 14 12:53:39 CST 2025
+eula=false
+```
+把他下面的false修改成true
+```
+#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
+#Sun Dec 14 12:53:39 CST 2025
+eula=true
+```
+在执行一遍下面的命令
+```
+java -jar server.jar
+```
+这个时候等到出现`Done`就行了
 
 
 
@@ -164,9 +194,39 @@ cd C:/Users/admin/Server
 java -jar server.jar
 ```
 
-后面你会看到一串黄色的东西
+后面你会看到一串黄色的东西，也就是下面这个`Failed to load eula.txt`
 
+```
+Downloading mojang_1.20.4.jar
+Applying patches
+Starting org.bukkit.craftbukkit.Main
+*** Warning, you've not updated in a while! ***
+*** Please download a new build as per instructions from https://papermc.io/downloads/paper ***
+System Info: Java 25 (OpenJDK 64-Bit Server VM 25.0.1+8-LTS) Host: Windows 11 10.0 (amd64)
+Loading libraries, please wait...
+[12:53:39 WARN]: Failed to load eula.txt
+[12:53:39 INFO]: You need to agree to the EULA in order to run the server. Go to eula.txt for more info.
+```
 
+这个时候，打开你的核心存放目录也就是`C:/Users/admin/Server./`
+找到eula.txt这个文件，双击打开它
+原本他是这样的
+```
+#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
+#Sun Dec 14 12:53:39 CST 2025
+eula=false
+```
+把他下面的false修改成true
+```
+#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
+#Sun Dec 14 12:53:39 CST 2025
+eula=true
+```
+在执行一遍下面的命令
+```
+java -jar server.jar
+```
+这个时候等到出现`Done`就行了
 
 
 
@@ -379,7 +439,33 @@ OpenJDK 64-Bit Server VM Zulu25.30+17-CA (build 25.0.1+8-LTS, mixed mode, sharin
 <p>接下来我们在里面输入</p>
 <pre class="notranslate"><code class="notranslate">java -jar server.jar
 </code></pre>
-<p>后面你会看到一串黄色的东西</p></div>
+<p>后面你会看到一串黄色的东西，也就是下面这个<code class="notranslate">Failed to load eula.txt</code></p>
+<pre class="notranslate"><code class="notranslate">Downloading mojang_1.20.4.jar
+Applying patches
+Starting org.bukkit.craftbukkit.Main
+*** Warning, you've not updated in a while! ***
+*** Please download a new build as per instructions from https://papermc.io/downloads/paper ***
+System Info: Java 25 (OpenJDK 64-Bit Server VM 25.0.1+8-LTS) Host: Windows 11 10.0 (amd64)
+Loading libraries, please wait...
+[12:53:39 WARN]: Failed to load eula.txt
+[12:53:39 INFO]: You need to agree to the EULA in order to run the server. Go to eula.txt for more info.
+</code></pre>
+<p>这个时候，打开你的核心存放目录也就是<code class="notranslate">C:/Users/admin/Server./</code><br>
+找到eula.txt这个文件，双击打开它<br>
+原本他是这样的</p>
+<pre class="notranslate"><code class="notranslate">#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
+#Sun Dec 14 12:53:39 CST 2025
+eula=false
+</code></pre>
+<p>把他下面的false修改成true</p>
+<pre class="notranslate"><code class="notranslate">#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
+#Sun Dec 14 12:53:39 CST 2025
+eula=true
+</code></pre>
+<p>在执行一遍下面的命令</p>
+<pre class="notranslate"><code class="notranslate">java -jar server.jar
+</code></pre>
+<p>这个时候等到出现<code class="notranslate">Done</code>就行了</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">❤️ 转载文章请注明出处，谢谢！❤️</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 04:51:59 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>搭建一个属于自己的我的世界服务器</title><link>http://blog.traveler.dpdns.org/post/18.html</link><description># 前言
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 04:57:52 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>搭建一个属于自己的我的世界服务器</title><link>http://blog.traveler.dpdns.org/post/18.html</link><description># 前言
 
 &gt; [!TIP]
 &gt; 仅用于朋友联机使用
@@ -67,9 +67,39 @@ cd C:/Users/admin/Server
 java -jar server.jar
 ```
 
-后面你会看到一串黄色的东西
+后面你会看到一串黄色的东西，也就是下面这个`Failed to load eula.txt`
 
+```
+Downloading mojang_1.20.4.jar
+Applying patches
+Starting org.bukkit.craftbukkit.Main
+*** Warning, you've not updated in a while! ***
+*** Please download a new build as per instructions from https://papermc.io/downloads/paper ***
+System Info: Java 25 (OpenJDK 64-Bit Server VM 25.0.1+8-LTS) Host: Windows 11 10.0 (amd64)
+Loading libraries, please wait...
+[12:53:39 WARN]: Failed to load eula.txt
+[12:53:39 INFO]: You need to agree to the EULA in order to run the server. Go to eula.txt for more info.
+```
 
+这个时候，打开你的核心存放目录也就是`C:/Users/admin/Server./`
+找到eula.txt这个文件，双击打开它
+原本他是这样的
+```
+#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
+#Sun Dec 14 12:53:39 CST 2025
+eula=false
+```
+把他下面的false修改成true
+```
+#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
+#Sun Dec 14 12:53:39 CST 2025
+eula=true
+```
+在执行一遍下面的命令
+```
+java -jar server.jar
+```
+这个时候等到出现`Done`就行了
 
 
 
