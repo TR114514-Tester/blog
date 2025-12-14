@@ -1,6 +1,6 @@
 const BLUR_INTENSITY = '8px'; // 高斯模糊程度，可修改这个值
 const BUTTON_HOVER_COLOR = '#8A2BE2'; // 右上角按钮悬浮颜色，可修改这个值（支持 #000000, rgb(255,0,0), rgba(255,0,0,0.8) 等格式）
-const BACKGROUND = "http://blog.traveler.dpdns.org/assets/image/background.png";
+const BACKGROUND = "https://blog.traveler.dpdns.org/assets/image/background.png";
 const ENABLE_RAIN_EFFECT = true; // 是否启用下雨效果，true为启用，false为关闭
 
 document.addEventListener('DOMContentLoaded', function() {
