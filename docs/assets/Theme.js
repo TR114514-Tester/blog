@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    // 定义背景图 URL 变量，这里你可以修改它
+    const backgroundUrl = 'https://img.154451.xyz/file/a2262c314f6a8bd592eba.jpg'; // 在这里修改背景图的 URL
+
     // 下雨效果 --------------------------------------------------------------------------------
     let rainstyle = document.createElement('style');
     rainstyle.type = 'text/css';
@@ -63,12 +66,12 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentUrl = window.location.pathname;
 
     // ======================= 主页 / 搜索页 / 通用 =======================
-    if (currentUrl.includes('/index.html') || currentUrl === "/" || currentUrl.includes('/tag.html')) {
+    if (currentUrl.includes('/index.html') || currentUrl === "/" || currentUrl.includes('/tag.html') || currentUrl.match(/page\d+\.html/)) {
 
         let style = document.createElement("style");
         style.innerHTML = `
         html {
-            background: url('https://img.154451.xyz/file/a2262c314f6a8bd592eba.jpg') no-repeat center center fixed;
+            background: url('${backgroundUrl}') no-repeat center center fixed;
             background-size: cover;
         }
 
@@ -165,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let style = document.createElement("style");
         style.innerHTML = `
         html {
-            background: url('https://img.154451.xyz/file/a2262c314f6a8bd592eba.jpg') no-repeat center center fixed;
+            background: url('${backgroundUrl}') no-repeat center center fixed;
             background-size: cover;
         }
 
