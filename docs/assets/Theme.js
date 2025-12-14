@@ -1,205 +1,219 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // 定义背景图 URL 变量，这里你可以修改它
-    const backgroundUrl = 'https://img.154451.xyz/file/a2262c314f6a8bd592eba.jpg'; // 在这里修改背景图的 URL
+    /* ====================== 可配置区域 ====================== */
 
-    // 下雨效果 --------------------------------------------------------------------------------
-    let rainstyle = document.createElement('style');
-    rainstyle.type = 'text/css';
-    rainstyle.innerHTML = `
-        * { padding: 0; margin: 0; }
-        .raincontent { width: 100%; height: 100%; }
+    // 👉 修改这里即可更换全站背景
+    const BACKGROUND_URL = 'https://img.154451.xyz/file/a2262c314f6a8bd592eba.jpg';
+
+    /* ====================== 基础修复（防抖动） ====================== */
+
+    const baseStyle = document.createElement('style');
+    baseStyle.innerHTML = `
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background: none;
+        }
+    `;
+    document.head.appendChild(baseStyle);
+
+    /* ====================== 下雨效果 ====================== */
+
+    const rainStyle = document.createElement('style');
+    rainStyle.innerHTML = `
         #rainBox {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 0;
         }
+
         .rain {
             position: absolute;
             width: 2px;
             height: 50px;
-            background: linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,.6));
+            background: linear-gradient(
+                rgba(255,255,255,.3),
+                rgba(255,255,255,.6)
+            );
         }
     `;
-    document.head.appendChild(rainstyle);
+    document.head.appendChild(rainStyle);
 
-    let raincontent = document.createElement('div');
-    raincontent.classList.add('raincontent');
-    let rainBox = document.createElement('div');
+    const rainBox = document.createElement('div');
     rainBox.id = 'rainBox';
-    raincontent.appendChild(rainBox);
-    document.body.appendChild(raincontent);
+    document.body.appendChild(rainBox);
 
-    let box = document.getElementById('rainBox');
-    let boxHeight = box.clientHeight;
-    let boxWidth = box.clientWidth;
+    let boxWidth = window.innerWidth;
+    let boxHeight = window.innerHeight;
 
-    window.onresize = window.onload = function () {
-        boxHeight = box.clientHeight;
-        boxWidth = box.clientWidth;
-    };
+    window.addEventListener('resize', () => {
+        boxWidth = window.innerWidth;
+        boxHeight = window.innerHeight;
+    });
 
     setInterval(() => {
-        let rain = document.createElement('div');
-        rain.classList.add('rain');
-        rain.style.top = '0px';
+        const rain = document.createElement('div');
+        rain.className = 'rain';
         rain.style.left = Math.random() * boxWidth + 'px';
+        rain.style.top = '0px';
         rain.style.opacity = Math.random();
-        box.appendChild(rain);
+        rainBox.appendChild(rain);
 
-        let race = 1;
-        let timer = setInterval(() => {
+        let speed = 1;
+        const timer = setInterval(() => {
+            speed++;
+            rain.style.top = parseInt(rain.style.top) + speed + 'px';
             if (parseInt(rain.style.top) > boxHeight) {
                 clearInterval(timer);
-                box.removeChild(rain);
+                rain.remove();
             }
-            race++;
-            rain.style.top = parseInt(rain.style.top) + race + 'px';
         }, 20);
     }, 50);
 
-    // 当前 URL --------------------------------------------------------------------------------
-    let currentUrl = window.location.pathname;
+    /* ====================== 页面判断 ====================== */
 
-    // ======================= 主页 / 搜索页 / 通用 =======================
-    if (currentUrl.includes('/index.html') || currentUrl === "/" || currentUrl.includes('/tag.html') || currentUrl.match(/page\d+\.html/)) {
+    const path = window.location.pathname;
 
-        let style = document.createElement("style");
+    const isHomeTheme =
+        path === '/' ||
+        path.includes('/index.html') ||
+        path.includes('/tag.html') ||
+        /page\d+\.html$/.test(path);
+
+    const isPostTheme =
+        path.includes('/post/') ||
+        path.includes('/about.html') ||
+        path.includes('/link.html');
+
+    /* ====================== 主页主题（毛玻璃） ====================== */
+
+    if (isHomeTheme) {
+
+        const style = document.createElement('style');
         style.innerHTML = `
         html {
-            background: url('${backgroundUrl}') no-repeat center center fixed;
+            background: url('${BACKGROUND_URL}') no-repeat center center fixed;
             background-size: cover;
         }
 
-        /* ====== 毛玻璃主体（推荐） ====== */
-        body {
+        /* 主内容滚动容器 */
+        body > *:not(#rainBox) {
             margin: 30px auto;
             padding: 20px;
-            font-size: 16px;
-            font-family: sans-serif;
-            line-height: 1.25;
+            max-width: 1100px;
 
-            background: rgba(255, 255, 255, 0.55);
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+
+            background: rgba(255,255,255,0.55);
             backdrop-filter: blur(16px) saturate(1.2);
             -webkit-backdrop-filter: blur(16px) saturate(1.2);
 
             border-radius: 14px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-            overflow: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,.35);
             position: relative;
             z-index: 1;
         }
 
-        /* ====== 侧边栏毛玻璃 ====== */
+        /* 侧边栏 */
         .SideNav {
-            background: rgba(255,255,255,0.45);
+            background: rgba(255,255,255,.45);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
         }
 
         .SideNav-item {
-            transition: 0.4s;
+            transition: .4s;
         }
 
         .SideNav-item:hover {
-            background: rgba(255,255,255,0.6);
-            border-radius: 10px;
+            background: rgba(255,255,255,.6);
             transform: scale(1.03);
+            border-radius: 10px;
         }
 
-        /* ====== 右上角毛玻璃按钮 ====== */
+        /* 右上角毛玻璃按钮 */
         div.title-right .btn {
             display: inline-flex;
             align-items: center;
             height: 40px;
-            margin: 0 6px;
             padding: 0 14px;
+            margin: 0 6px;
 
-            background: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,.35);
             backdrop-filter: blur(12px) saturate(1.2);
             -webkit-backdrop-filter: blur(12px) saturate(1.2);
 
             border-radius: 2em !important;
-            border: 1px solid rgba(255,255,255,0.4);
-
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,.4);
+            transition: .3s;
         }
 
         div.title-right .btn:hover {
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,.6);
             transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+            box-shadow: 0 6px 18px rgba(0,0,0,.25);
         }
 
-        div.title-right .btn .btndescription {
+        .btndescription {
             display: none;
             margin-left: 6px;
-            white-space: nowrap;
             font-weight: bold;
-            color: #000;
         }
 
-        div.title-right .btn:hover .btndescription {
+        .btn:hover .btndescription {
             display: inline;
         }
         `;
         document.head.appendChild(style);
 
-        // 右上角按钮描述
-        document.querySelectorAll(".title-right a.btn").forEach(button => {
-            let title = button.getAttribute('title');
+        // 按钮描述
+        document.querySelectorAll('.title-right a.btn').forEach(btn => {
+            const title = btn.getAttribute('title');
             if (title) {
-                let span = document.createElement('span');
+                const span = document.createElement('span');
                 span.className = 'btndescription';
                 span.textContent = title;
-                button.appendChild(span);
+                btn.appendChild(span);
             }
         });
     }
 
-    // ======================= 文章页 =======================
-    else if (currentUrl.includes('/post/') || currentUrl.includes('/link.html') || currentUrl.includes('/about.html')) {
+    /* ====================== 文章页主题 ====================== */
 
-        let style = document.createElement("style");
+    if (isPostTheme) {
+
+        const style = document.createElement('style');
         style.innerHTML = `
         html {
-            background: url('${backgroundUrl}') no-repeat center center fixed;
+            background: url('${BACKGROUND_URL}') no-repeat center center fixed;
             background-size: cover;
         }
 
-        body {
-            max-width: 1100px;
+        body > *:not(#rainBox) {
             margin: 30px auto;
             padding: 45px;
-            font-size: 16px;
-            font-family: sans-serif;
+            max-width: 1100px;
 
-            background: rgba(255,255,255,0.6);
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+
+            background: rgba(255,255,255,.6);
             backdrop-filter: blur(18px) saturate(1.2);
             -webkit-backdrop-filter: blur(18px) saturate(1.2);
 
             border-radius: 16px;
-            box-shadow: 0 10px 36px rgba(0,0,0,0.35);
-        }
-
-        .markdown-body pre,
-        .markdown-body .highlight pre {
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(8px);
-            border-radius: 12px;
-        }
-
-        /* 右上角毛玻璃按钮 */
-        div.title-right .btn {
-            background: rgba(255,255,255,0.35);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 2em;
+            box-shadow: 0 10px 36px rgba(0,0,0,.35);
         }
         `;
         document.head.appendChild(style);
