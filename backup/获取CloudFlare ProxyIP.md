@@ -37,7 +37,6 @@ ProxyIP指的是在CloudFlare Workers中那些能够成功代理连接到 Cloudf
 随便用一个软件打开
 搜索你需要的区域，比如`HK`
 这样我们就获取了`HK`的`ProxyIP`
-接下来该干什么你自己应该知道了   :D
 
 # cmliu大佬获取
 打开 [Check ProxyIP - 代理IP检测服务](https://check.proxyip.cmliussss.net/) ，直接输入 `proxyip.cmliussss.net` 进行检测
