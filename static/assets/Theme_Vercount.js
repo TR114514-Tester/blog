@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     
     // 创建文档片段，将 body 原有的子元素搬运进去
+    // 这样做可以保留原有元素的事件绑定和引用，确保 Vercount 能找到它们
     const fragment = document.createDocumentFragment();
     while (document.body.firstChild) {
         fragment.appendChild(document.body.firstChild);
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(cardContainer);
     
     // ------------------------------------------------------------------
-    // 3. 插入 GmeekVercount Plugins (在页面结构稳定后执行)
+    // 3. 插入 Vercount 统计插件 (在页面结构稳定后执行)
     // ------------------------------------------------------------------
     function createVercount() {
         // 文章页：插入阅读量
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 执行插入逻辑
     createVercount();
 
-    // 加载 Vercount 脚本
+    // 加载 Vercount 核心脚本
     var vercountScript = document.createElement('script');
     vercountScript.src = 'https://vercount.one/js';
     document.head.appendChild(vercountScript);
@@ -129,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
         rainBox.id = 'rainBox';
         raincontent.appendChild(rainBox);
         
-        // 将下雨容器插入到body的最前面（也就是卡片容器的后面，因为卡片容器是 relative z-index 10，这里作为背景）
+        // 将下雨容器插入到body的最前面（作为背景）
         document.body.insertBefore(raincontent, document.body.firstChild);
         
         function initRainEffect() {
