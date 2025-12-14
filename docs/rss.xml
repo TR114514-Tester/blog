@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 02:02:29 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>获取CloudFlare ProxyIP</title><link>http://blog.traveler.dpdns.org/post/16.html</link><description># ProxyIP是什么？
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 02:04:32 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>获取CloudFlare ProxyIP</title><link>http://blog.traveler.dpdns.org/post/16.html</link><description># ProxyIP是什么？
 ProxyIP指的是在CloudFlare Workers中那些能够成功代理连接到 Cloudflare 服务的第三方 IP 地址
 根据 Cloudflare Workers 的 [TCP Sockets 官方文档](https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/) 说明，存在以下技术限制：
 
@@ -57,17 +57,17 @@ play.traveler.dpdns.org
 &gt; 里面有AI的成分，稳定性不做承担.
 
 # 迁移主题到你的博客
-打开[https://github.com/TR114514-Tester/myblog/blob/main/static/assets/MYTheme.js](https://github.com/TR114514-Tester/myblog/blob/main/static/assets/MYTheme.js)
+打开[https://github.com/TR114514-Tester/myblog/blob/main/static/assets/MYTheme.js](https://github.com/TR114514-Tester/myblog/blob/main/static/assets/TRTheme.js)
 复制里面的全部代码
 放到你仓库的`static`目录下
 点击`Actions &gt; Build Gmeek &gt; Run Workflow &gt; RunWorkflow`
 这样子就可以通过`yourusername.github.io/MYTheme.js`获取到主题内容了
 # 配置
 ```javascript
-// 添加高斯模糊程度变量（可调整）
 const BLUR_INTENSITY = '8px'; // 高斯模糊程度，可修改这个值
 const BUTTON_HOVER_COLOR = '#8A2BE2'; // 右上角按钮悬浮颜色，可修改这个值（支持 #000000, rgb(255,0,0), rgba(255,0,0,0.8) 等格式）
 const BACKGROUND = 'http://blog.traveler.dpdns.org/assets/image/background.png';
+const ENABLE_RAIN_EFFECT = true; // 是否启用下雨效果，true为启用，false为关闭
 ```
 虽然有注释，但是我还是得讲一下
 
@@ -76,7 +76,7 @@ const BACKGROUND = 'http://blog.traveler.dpdns.org/assets/image/background.png';
 | BLUR_INTENSITY  | 高斯模糊的值，越低越清晰，越高越模糊，示例值：8px  |
 | BUTTON_HOVER_COLOR   | 当鼠标悬停在上面时右上角按钮的颜色，示例值：#8A2BE2  |
 | BACKGROUND   | 你博客的背景图片，填网址即可  |
-
+| ENABLE_RAIN_EFFECT | 是否在你的博客开启下雨状态，填true或false  |
 。</description><guid isPermaLink="true">http://blog.traveler.dpdns.org/post/11.html</guid><pubDate>Sat, 13 Dec 2025 10:38:51 +0000</pubDate></item><item><title>ZeroTermux搭建我的世界服务器</title><link>http://blog.traveler.dpdns.org/post/10.html</link><description>
 
 # 视频教程
