@@ -1,5 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 02:07:49 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>交换友链</title><link>http://blog.traveler.dpdns.org/post/17.html</link><description>e后面再写。</description><guid isPermaLink="true">http://blog.traveler.dpdns.org/post/17.html</guid><pubDate>Sun, 14 Dec 2025 02:07:15 +0000</pubDate></item><item><title>获取CloudFlare ProxyIP</title><link>http://blog.traveler.dpdns.org/post/16.html</link><description># ProxyIP是什么？
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 02:33:17 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>搭建一个属于自己的我的世界服务器</title><link>http://blog.traveler.dpdns.org/post/18.html</link><description># 前言
+
+&gt; [!TIP]
+&gt; 仅用于朋友联机使用
+
+# 下载Java
+`Java`也分很多种的，有`Oracle`啊，`Azul`啊，不过大体上是差不多的，`Azul`优化更好罢了
+我放个链接：[Azul](https://www.azul.com/downloads/#zulu)
+
+| Java版本  | Minecraft版本  |
+| ------------ | ------------ |
+| Java8  | 1.8-1.16  |
+| Java16  | 1.17  |
+| Java17  | 1.18-1.20.4  |
+| Java21  | 1.20.5及以上  |
+
+# 下载核心
+
+
+
+
+
+
+。</description><guid isPermaLink="true">http://blog.traveler.dpdns.org/post/18.html</guid><pubDate>Sun, 14 Dec 2025 02:32:44 +0000</pubDate></item><item><title>交换友链</title><link>http://blog.traveler.dpdns.org/post/17.html</link><description>e后面再写。</description><guid isPermaLink="true">http://blog.traveler.dpdns.org/post/17.html</guid><pubDate>Sun, 14 Dec 2025 02:07:15 +0000</pubDate></item><item><title>获取CloudFlare ProxyIP</title><link>http://blog.traveler.dpdns.org/post/16.html</link><description># ProxyIP是什么？
 ProxyIP指的是在CloudFlare Workers中那些能够成功代理连接到 Cloudflare 服务的第三方 IP 地址
 根据 Cloudflare Workers 的 [TCP Sockets 官方文档](https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/) 说明，存在以下技术限制：
 
