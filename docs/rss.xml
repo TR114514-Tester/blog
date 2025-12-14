@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 04:57:52 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>搭建一个属于自己的我的世界服务器</title><link>http://blog.traveler.dpdns.org/post/18.html</link><description># 前言
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的博客</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题</description><copyright>TR114514的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 05:03:43 +0000</lastBuildDate><managingEditor>TR114514的博客</managingEditor><ttl>60</ttl><webMaster>TR114514的博客</webMaster><item><title>搭建一个属于自己的我的世界服务器</title><link>http://blog.traveler.dpdns.org/post/18.html</link><description># 前言
 
 &gt; [!TIP]
 &gt; 仅用于朋友联机使用
@@ -81,27 +81,56 @@ Loading libraries, please wait...
 [12:53:39 INFO]: You need to agree to the EULA in order to run the server. Go to eula.txt for more info.
 ```
 
-这个时候，打开你的核心存放目录也就是`C:/Users/admin/Server./`
+这个时候，打开你的核心存放目录也就是`C:/Users/admin/Server/`
 找到eula.txt这个文件，双击打开它
 原本他是这样的
+
 ```
 #By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
 #Sun Dec 14 12:53:39 CST 2025
 eula=false
 ```
+
 把他下面的false修改成true
+
 ```
 #By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
 #Sun Dec 14 12:53:39 CST 2025
 eula=true
 ```
+
 在执行一遍下面的命令
+
 ```
 java -jar server.jar
 ```
+
 这个时候等到出现`Done`就行了
 
+```
+[12:57:32 INFO]: Done (7.371s)! For help, type 'help'
+```
 
+接下来启动和服务器版本相同的我的世界，输入`127.0.0.1:25565`就可以进入服务器了
+但是离线玩家无法进入，怎么办呢？
+我们先输入`stop`关闭服务器
+打开目录下的server.properties
+找到下面这个
+
+```
+online-mode=true
+```
+
+把他修改成false
+
+```
+online-mode=false
+```
+
+这样离线玩家也可以进入服务器了
+但是你的朋友进不去怎么办？
+这就需要`内网穿透`了
+我将会单独写一篇文章来告诉你怎么内网穿透除出去和你的朋友一起玩
 
 
 
