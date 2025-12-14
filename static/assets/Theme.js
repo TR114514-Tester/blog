@@ -1,10 +1,7 @@
-// ================= 配置区域 =================
-// 添加高斯模糊程度变量（可调整）
 const BLUR_INTENSITY = '8px'; // 高斯模糊程度，可修改这个值
-const BUTTON_HOVER_COLOR = '#8A2BE2'; // 右上角按钮悬浮颜色
-const BACKGROUND = "https://img.154451.xyz/file/a2262c314f6a8bd592eba.jpg"; // 背景图片
-const ENABLE_RAIN_EFFECT = true; // 是否启用下雨效果
-// ===========================================
+const BUTTON_HOVER_COLOR = '#8A2BE2'; // 右上角按钮悬浮颜色，可修改这个值（支持 #000000, rgb(255,0,0), rgba(255,0,0,0.8) 等格式）
+const BACKGROUND = "http://blog.traveler.dpdns.org/assets/image/background.png";
+const ENABLE_RAIN_EFFECT = true; // 是否启用下雨效果，true为启用，false为关闭
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -27,9 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.head.appendChild(script);
     }
     
-    // ------------------------------------------------------------------
-    // 关键修复区域：使用节点移动代替 innerHTML 重写
-    // ------------------------------------------------------------------
+    // 创建MDUI卡片容器并包装body内容
+    const bodyContent = document.body.innerHTML;
     const cardContainer = document.createElement('div');
     cardContainer.className = 'mdui-card mdui-card-content';
     cardContainer.style.cssText = `
@@ -40,21 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
         z-index: 1;
     `;
     
-    // 创建一个文档片段，用于临时存放被移动的元素
-    const fragment = document.createDocumentFragment();
-    
-    // 循环将 body 中的所有子节点移动到文档片段中
-    // 注意：这里是移动(appendChild)，不是复制，所以原来的节点及其绑定的事件都会被保留
-    while (document.body.firstChild) {
-        fragment.appendChild(document.body.firstChild);
-    }
-    
-    // 将装满内容的片段放入卡片容器
-    cardContainer.appendChild(fragment);
-    
-    // 将卡片容器放入已经清空的 body
+    document.body.innerHTML = '';
     document.body.appendChild(cardContainer);
-    // ------------------------------------------------------------------
+    cardContainer.innerHTML = bodyContent;
     
     // 如果启用了下雨效果，添加下雨效果
     if (ENABLE_RAIN_EFFECT) {
@@ -91,13 +75,14 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         document.head.appendChild(rainstyle);
         
-        // 创建下雨容器 (插入到body最前面，也就是cardContainer之前，作为背景)
+        // 创建下雨容器
         let raincontent = document.createElement('div');
         raincontent.classList.add('raincontent');
         let rainBox = document.createElement('div');
         rainBox.id = 'rainBox';
         raincontent.appendChild(rainBox);
         
+        // 将下雨容器插入到body的最前面
         document.body.insertBefore(raincontent, document.body.firstChild);
         
         // 初始化下雨效果
