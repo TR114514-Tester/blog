@@ -1,9 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的Blog</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题&lt;br&gt;吾志所向，一往无前，愈挫愈奋，再接再厉。</description><copyright>TR114514的Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 11:22:39 +0000</lastBuildDate><managingEditor>TR114514的Blog</managingEditor><ttl>60</ttl><webMaster>TR114514的Blog</webMaster><item><title>我的世界超低配光影分享</title><link>http://blog.traveler.dpdns.org/post/20.html</link><description># 前言
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的Blog</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题&lt;br&gt;吾志所向，一往无前，愈挫愈奋，再接再厉。</description><copyright>TR114514的Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Sun, 14 Dec 2025 11:24:40 +0000</lastBuildDate><managingEditor>TR114514的Blog</managingEditor><ttl>60</ttl><webMaster>TR114514的Blog</webMaster><item><title>我的世界超低配光影分享</title><link>http://blog.traveler.dpdns.org/post/20.html</link><description># 前言
 像各种高级光影低性能的电脑肯定带不动，所有就整理出来了这份列表
 # 列表
-|   |   |
+| 光影  | 个人评价  |
 | ---- | ---- |
+| [Cyanide Shaders](https://modrinth.com/shader/cyanide-shaders)  |   |
+| [MakeUp - Ultra Fast](https://modrinth.com/shader/makeup-ultra-fast-shaders)  |   |
+|   |   |
+|   |   |
 |   |   |
 |   |   |
 |   |   |
