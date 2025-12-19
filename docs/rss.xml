@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的Blog</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题&lt;br&gt;吾志所向，一往无前，愈挫愈奋，再接再厉。 ——孙中山</description><copyright>TR114514的Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog-assets.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Fri, 19 Dec 2025 08:56:57 +0000</lastBuildDate><managingEditor>TR114514的Blog</managingEditor><ttl>60</ttl><webMaster>TR114514的Blog</webMaster><item><title>我的世界光影风景照</title><link>http://blog.traveler.dpdns.org/post/21.html</link><description>**感觉拍的不怎么好看**
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514的Blog</title><link>http://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题&lt;br&gt;吾志所向，一往无前，愈挫愈奋，再接再厉。 ——孙中山</description><copyright>TR114514的Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog-assets.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>http://blog.traveler.dpdns.org</link></image><lastBuildDate>Fri, 19 Dec 2025 10:11:05 +0000</lastBuildDate><managingEditor>TR114514的Blog</managingEditor><ttl>60</ttl><webMaster>TR114514的Blog</webMaster><item><title>《花雨庭 • 重启》</title><link>http://blog.traveler.dpdns.org/post/22.html</link><description># 正文
+花雨庭最近[停服](https://mc.163.com/news/20251210/29175_1275702.html)了
+但是这不应该是'花雨庭'这个名字的结束
+我想在Minecraft Java版中继续延续'花雨庭'这个名字
+但这不是我一个人可以做到的，我想，还喜欢着花雨庭的人会帮助我吧
+我的起床服务端用的是b站[一般路过羽末末](https://space.bilibili.com/28525429)的[花雨庭起床端](https://www.bilibili.com/video/BV11QqaBtEgt/)，在此感谢
+空岛服务端我会自己制作
+我本人不常用[Velocity](https://papermc.io/software/velocity/)和[BungeeCord](https://www.spigotmc.org/wiki/bungeecord/)，所以在配置方面可能会有一点脑残
+希望你可以帮助到我！。</description><guid isPermaLink="true">http://blog.traveler.dpdns.org/post/22.html</guid><pubDate>Fri, 19 Dec 2025 10:10:38 +0000</pubDate></item><item><title>我的世界光影风景照</title><link>http://blog.traveler.dpdns.org/post/21.html</link><description>**感觉拍的不怎么好看**
 `Gmeek-html&lt;img src='https://blog.traveler.dpdns.org/Image/21/1.png'&gt;`
 `Gmeek-html&lt;img src='https://blog.traveler.dpdns.org/Image/21/2.png'&gt;`。</description><guid isPermaLink="true">http://blog.traveler.dpdns.org/post/21.html</guid><pubDate>Sun, 14 Dec 2025 11:50:00 +0000</pubDate></item><item><title>我的世界超低配光影分享</title><link>http://blog.traveler.dpdns.org/post/20.html</link><description># 前言
 像各种高级光影低性能的电脑肯定带不动，所有就整理出来了这份列表，保证你核显都带得动！
