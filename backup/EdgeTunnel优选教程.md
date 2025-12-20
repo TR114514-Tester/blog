@@ -5,6 +5,6 @@
 
 # 教程
 打开你的后台管理面板，点开**优选订阅生成**，选择**自定义优选**
-![EdgeTunnelYouXuan](https://blog.traveler.dpdns.org/Tutorial/EdgeTunnelYouXuan/yx1.png)
+![EdgeTunnelYouXuan](https://blog-assets.traveler.dpdns.org/Tutorial/EdgeTunnelYouXuan/yx1.png)
 点击**在线优选**即可开始优选
-![EdgeTunnelYouXuan](https://blog.traveler.dpdns.org/Tutorial/EdgeTunnelYouXuan/yx2.png)
+![EdgeTunnelYouXuan](https://blog-assets.traveler.dpdns.org/Tutorial/EdgeTunnelYouXuan/yx2.png)
