@@ -11,7 +11,7 @@
     "startSite":"08/24/2025",
     "UTC":8,
     "themeMode":"fix",
-    "dayTheme":"light",
+    "dayTheme":"light_tritanopia",
     "nightTheme":"github-light",
     "onePageListNum":15,
     "yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],
