@@ -12,7 +12,7 @@
     "UTC":8,
     "onePageListNum":10,
     "indexScript":"<script src='https://blog-assets.traveler.dpdns.org/assets/pagination.js'></script>",
-    "allHead":"<script src='https://blog-assets.traveler.dpdns.org/assets/simple-ad.js'></script><script src='https://blog-assets.traveler.dpdns.org/assets/GmeekVercount.js'></script><script src='https://blog-assets.traveler.dpdns.org/assets/GmeekFont.js'></script><script src='https://blog-assets.traveler.dpdns.org/live2d/autoload.js'>",
+    "allHead":"<script src='https://blog-assets.traveler.dpdns.org/assets/Theme.js'></script><script src='https://blog-assets.traveler.dpdns.org/assets/simple-ad.js'></script><script src='https://blog-assets.traveler.dpdns.org/assets/GmeekVercount.js'></script><script src='https://blog-assets.traveler.dpdns.org/live2d/autoload.js'>",
     "script":"<script src='https://blog-assets.traveler.dpdns.org/assets/lightbox.js'></script>",
     "i18n":"CN",
     "urlMode":"issue",
