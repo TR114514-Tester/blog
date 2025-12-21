@@ -1,5 +1,9 @@
 # 有啥用？
 可以修改Gmeek页面的所有字体
+
+> [!WARNING]
+> 里面有AI的成分，稳定性不做承担.
+
 # 使用
 打开[https://blog-assets.traveler.dpdns.org/assets/GmeekFont.js](https://blog-assets.traveler.dpdns.org/assets/GmeekFont.js)
 放到仓库的static目录下
