@@ -1,5 +1,128 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514の小窝</title><link>https://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题&lt;br&gt;吾志所向，一往无前，愈挫愈奋，再接再厉。 ——孙中山</description><copyright>TR114514の小窝</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog-assets.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>https://blog.traveler.dpdns.org</link></image><lastBuildDate>Sat, 27 Dec 2025 11:09:08 +0000</lastBuildDate><managingEditor>TR114514の小窝</managingEditor><ttl>60</ttl><webMaster>TR114514の小窝</webMaster><item><title>免费码支付列表（持续更新）</title><link>https://blog.traveler.dpdns.org/post/30.html</link><description>| 名称  | 地址  | 状态  |
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>TR114514の小窝</title><link>https://blog.traveler.dpdns.org</link><description>你好！我叫TR114514（Traveler114514），一位中国人，很高兴遇见你！我会在这里分享一些技术性的话题&lt;br&gt;吾志所向，一往无前，愈挫愈奋，再接再厉。 ——孙中山</description><copyright>TR114514の小窝</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://blog-assets.traveler.dpdns.org/assets/image/icon.png</url><title>avatar</title><link>https://blog.traveler.dpdns.org</link></image><lastBuildDate>Fri, 02 Jan 2026 10:27:34 +0000</lastBuildDate><managingEditor>TR114514の小窝</managingEditor><ttl>60</ttl><webMaster>TR114514の小窝</webMaster><item><title>Github免费云电脑</title><link>https://blog.traveler.dpdns.org/post/31.html</link><description>新建一个WorkFlow
+输入下面的内容
+然后运行这个`WorkFlow`
+验证一下`TailScale`
+`Win + R`输入`mstsc`
+然后输入`IP`，`用户名`和`密码`
+即可连接云电脑
+
+
+```
+name: RDP
+
+on:
+  workflow_dispatch:
+
+jobs:
+  secure-rdp:
+    runs-on: windows-latest
+    timeout-minutes: 3600
+
+    steps:
+      - name: Configure Core RDP Settings
+        run: |
+          # Enable Remote Desktop and disable Network Level Authentication (if needed)
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' `
+                             -Name 'fDenyTSConnections' -Value 0 -Force
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' `
+                             -Name 'UserAuthentication' -Value 0 -Force
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' `
+                             -Name 'SecurityLayer' -Value 0 -Force
+
+          # Remove any existing rule with the same name to avoid duplication
+          netsh advfirewall firewall delete rule name='RDP-Tailscale'
+          
+          # For testing, allow any incoming connection on port 3389
+          netsh advfirewall firewall add rule name='RDP-Tailscale' `
+            dir=in action=allow protocol=TCP localport=3389
+
+          # (Optional) Restart the Remote Desktop service to ensure changes take effect
+          Restart-Service -Name TermService -Force
+
+      - name: Create RDP User with Secure Password
+        run: |
+          Add-Type -AssemblyName System.Security
+          $charSet = @{
+              Upper   = [char[]](65..90)      # A-Z
+              Lower   = [char[]](97..122)     # a-z
+              Number  = [char[]](48..57)      # 0-9
+              Special = ([char[]](33..47) + [char[]](58..64) +
+                         [char[]](91..96) + [char[]](123..126)) # Special characters
+          }
+          $rawPassword = @()
+          $rawPassword += $charSet.Upper | Get-Random -Count 4
+          $rawPassword += $charSet.Lower | Get-Random -Count 4
+          $rawPassword += $charSet.Number | Get-Random -Count 4
+          $rawPassword += $charSet.Special | Get-Random -Count 4
+          $password = -join ($rawPassword | Sort-Object { Get-Random })
+          $securePass = ConvertTo-SecureString $password -AsPlainText -Force
+          New-LocalUser -Name 'RDP' -Password $securePass -AccountNeverExpires
+          Add-LocalGroupMember -Group 'Administrators' -Member 'RDP'
+          Add-LocalGroupMember -Group 'Remote Desktop Users' -Member 'RDP'
+          
+          echo 'RDP_CREDS=User: RDP | Password: $password' &gt;&gt; $env:GITHUB_ENV
+          
+          if (-not (Get-LocalUser -Name 'RDP')) {
+              Write-Error 'User creation failed'
+              exit 1
+          }
+
+      - name: Install Tailscale
+        run: |
+          $tsUrl = 'https://pkgs.tailscale.com/stable/tailscale-setup-1.82.0-amd64.msi'
+          $installerPath = '$env:TEMP\tailscale.msi'
+          
+          Invoke-WebRequest -Uri $tsUrl -OutFile $installerPath
+          Start-Process msiexec.exe -ArgumentList '/i', '`'$installerPath`'', '/quiet', '/norestart' -Wait
+          Remove-Item $installerPath -Force
+
+      - name: Establish Tailscale Connection
+        run: |
+          # Bring up Tailscale with the provided auth key and set a unique hostname
+          &amp; '$env:ProgramFiles\Tailscale\tailscale.exe' up --authkey=${{ secrets.TAILSCALE_AUTH_KEY }} --hostname=gh-runner-$env:GITHUB_RUN_ID
+          
+          # Wait for Tailscale to assign an IP
+          $tsIP = $null
+          $retries = 0
+          while (-not $tsIP -and $retries -lt 10) {
+              $tsIP = &amp; '$env:ProgramFiles\Tailscale\tailscale.exe' ip -4
+              Start-Sleep -Seconds 5
+              $retries++
+          }
+          
+          if (-not $tsIP) {
+              Write-Error 'Tailscale IP not assigned. Exiting.'
+              exit 1
+          }
+          echo 'TAILSCALE_IP=$tsIP' &gt;&gt; $env:GITHUB_ENV
+      
+      - name: Verify RDP Accessibility
+        run: |
+          Write-Host 'Tailscale IP: $env:TAILSCALE_IP'
+          
+          # Test connectivity using Test-NetConnection against the Tailscale IP on port 3389
+          $testResult = Test-NetConnection -ComputerName $env:TAILSCALE_IP -Port 3389
+          if (-not $testResult.TcpTestSucceeded) {
+              Write-Error 'TCP connection to RDP port 3389 failed'
+              exit 1
+          }
+          Write-Host 'TCP connectivity successful!'
+
+      - name: Maintain Connection
+        run: |
+          Write-Host '`n=== RDP ACCESS ==='
+          Write-Host 'Address: $env:TAILSCALE_IP'
+          Write-Host 'Username: RDP'
+          Write-Host 'Password: $(echo $env:RDP_CREDS)'
+          Write-Host '==================`n'
+          
+          # Keep runner active indefinitely (or until manually cancelled)
+          while ($true) {
+              Write-Host '[$(Get-Date)] RDP Active - Use Ctrl+C in workflow to terminate'
+              Start-Sleep -Seconds 300
+          }
+```。</description><guid isPermaLink="true">https://blog.traveler.dpdns.org/post/31.html</guid><pubDate>Fri, 02 Jan 2026 10:27:10 +0000</pubDate></item><item><title>免费码支付列表（持续更新）</title><link>https://blog.traveler.dpdns.org/post/30.html</link><description>| 名称  | 地址  | 状态  |
 | ------------ | ------------ | ------------ |
 | GoPay  | [https://pay.mymzf.com/](https://pay.mymzf.com/)  | Yes!  |
 | 小鹿免费码支付  | [https://pay.typecho.cyou/](https://pay.typecho.cyou/)  | No!  |
