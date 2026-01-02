@@ -7,7 +7,7 @@
 即可连接云电脑
 
 
-```
+```yaml
 name: RDP
 
 on:
